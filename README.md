@@ -7,7 +7,7 @@ AI & Data Science graduate | Generative AI & ML Systems | Trading & Market Analy
 ## 👨‍💻 About Me
 
 - B.Tech in **Artificial Intelligence & Data Science (2024)**
-- Associate Trader & **SEBI-registered Authorised Person at Angel One**
+- Associate Trader & **NISm-registered Authorised Person at Angel One**
 - Focused on building **data-driven, AI-powered systems** with real-world impact
 - Strong interest in **Generative AI, Machine Learning, and intelligent automation**
 - Experience bridging **technology, analytics, and financial decision-making**
