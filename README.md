@@ -1,4 +1,4 @@
-# Hi, I'm Adarsh S 👋
+# Hi, I'm Adarsh 👋
 
 AI & Data Science graduate | Generative AI & ML Systems | Trading & Market Analytics
 
