@@ -4,7 +4,7 @@ AI & Data Science graduate | Generative AI & ML Systems | Trading & Market Analy
 
 ---
 
-[![Sam Adarsh's GitHub stats](https://github-readme-stats.vercel.app/api?username=Sam-Adarsh)](https://github.com/Sam-Adarsh/github-readme-stats)
+[![Sam Adarsh's GitHub stats](https://github-readme-stats.vercel.app/api?username=Sam-Adarsh)]
 [![GitHub Streak](https://streak-stats.demolab.com/?user=Sam-Adarsh&theme=dark)](https://git.io/streak-stats)
 
 ---
