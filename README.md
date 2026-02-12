@@ -12,17 +12,7 @@ AI & Data Science graduate | Generative AI & ML Systems | Trading & Market Analy
 📊 Background in trading (Equity & F&O) — I like thinking in probabilities and risk.  
 🌱 Learning more about transformers, RAG pipelines, and model deployment.  
 ⚙️ Building small but meaningful projects instead of collecting buzzwords.  
-📈 Interested in AI + finance + automation — where logic meets uncertainty.  
-
----
-
-## 📈 Finance & Trading Experience
-
-- Exposure to Equity & F&O markets
-- Client onboarding, KYC, and regulatory compliance
-- Trade-performance analysis and portfolio monitoring
-- Risk assessment, position sizing, and market structure study
-- Exploring systematic, data-backed trading models
+📈 Interested in AI + finance + automation — where logic meets uncertainty.
 
 ---
 
