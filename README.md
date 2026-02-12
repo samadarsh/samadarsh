@@ -18,27 +18,6 @@ AI & Data Science graduate | Generative AI & ML Systems | Trading & Market Analy
 
 ---
 
-## 🔧 Technical Skills
-
-### Machine Learning & Generative AI
-- Supervised & Unsupervised Learning  
-- Feature Engineering & Model Evaluation  
-- Generative AI: LLM fundamentals, prompt engineering, embeddings, RAG (learning & projects)  
-- NLP pipelines, text preprocessing, transformer architectures  
-
-### Programming & Tools
-- Python, SQL  
-- Pandas, NumPy, Scikit-learn  
-- PyTorch, Hugging Face ecosystem  
-- Git & GitHub  
-
-### Data, Systems & Automation
-- Data analysis & visualization  
-- AI pipeline design & experimentation  
-- API-based workflows and system automation  
-
----
-
 ## 📈 Finance & Trading Experience
 
 - Exposure to Equity & F&O markets
