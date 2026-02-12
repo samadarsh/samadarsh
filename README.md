@@ -3,6 +3,8 @@
 AI & Data Science graduate | Generative AI & ML Systems | Trading & Market Analytics
 
 ---
+[![GitHub Streak](https://streak-stats.demolab.com/?user=Sam-Adarsh)](https://git.io/streak-stats)
+---
 
 ## 👨‍💻 About Me
 
@@ -12,8 +14,6 @@ AI & Data Science graduate | Generative AI & ML Systems | Trading & Market Analy
 - Strong interest in **Generative AI, Machine Learning, and intelligent automation**
 - Experience bridging **technology, analytics, and financial decision-making**
 
-
-[![GitHub Streak](https://streak-stats.demolab.com/?user=Sam-Adarsh)](https://git.io/streak-stats)
 ---
 
 ## 🔧 Technical Skills
