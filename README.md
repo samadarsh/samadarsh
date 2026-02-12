@@ -8,6 +8,7 @@ AI & Data Science graduate | Generative AI & ML Systems | Trading & Market Analy
 
 ---
 
+[![Sam Adarsh's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=Sam-Adarsh&theme=github)](https://github.com/Sam-Adarsh/github-readme-activity-graph)
 
 ---
 
