@@ -2,7 +2,7 @@
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-View%20Website-111111?style=for-the-badge)](https://sam-adarsh.github.io/samadarsh-portfolio)
 
-AI & Data Science graduate exploring the space where Generative AI, intelligent systems, and financial markets intersect.
+AI & Data Science graduate working at the intersection of Generative AI, intelligent systems, and financial markets.
 
 ---
 
@@ -10,20 +10,20 @@ AI & Data Science graduate exploring the space where Generative AI, intelligent 
 
 ---
 
-🔭 Currently diving deeper into Generative AI, LLM internals, and production-ready ML systems.  
-📊 With a background in trading (Equity & F&O), I approach problems through probability, risk, and structured decision-making.  
-🌱 Exploring transformers, RAG pipelines, model evaluation, and deployment workflows.  
-⚙️ Focused on building practical, end-to-end projects — not just experimenting in notebooks.  
-📈 Especially interested in applying AI to finance, analytics, and automation.
+🔭 Currently going deeper into Generative AI, LLM internals, and production-ready ML systems.  
+📊 With a trading background (Equity & F&O), I naturally think in probabilities, risk, and structured decision-making.  
+🌱 Exploring transformers, RAG pipelines, evaluation strategies, and deployment workflows.  
+⚙️ Focused on building practical, end-to-end systems — not just running experiments.  
+📈 Particularly interested in applying AI to finance, analytics, and intelligent automation.
 
 ---
 
-### What you’ll find here
+### What you'll find here
 
-- Machine Learning & GenAI experiments  
-- Structured, reproducible AI projects  
+- Machine Learning & GenAI projects  
+- Structured, reproducible workflows  
 - Financial analytics & system-driven thinking  
-- Continuous iteration and public learning  
+- Continuous learning in public  
 
 ---
 
