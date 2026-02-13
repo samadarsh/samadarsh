@@ -1,4 +1,4 @@
-# Hi, I'm Adarsh 
+# Hi, I'm Adarsh
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-View%20Website-111111?style=for-the-badge)](https://sam-adarsh.github.io/samadarsh-portfolio)
 
