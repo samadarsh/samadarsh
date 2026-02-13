@@ -23,9 +23,9 @@ AI & Data Science grad exploring Generative AI, intelligent systems, and financi
 ### What you'll find here
 
 - Machine Learning & GenAI projects
-- Structured, reproducible workflows  
-- Financial analytics & system-driven thinking  
-- Continuous learning in public  
+- Structured, reproducible workflows
+- Financial analytics & system-driven thinking
+- Continuous learning in public
 
 ---
 
