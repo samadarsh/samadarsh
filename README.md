@@ -6,8 +6,6 @@
 
 AI & Data Science grad exploring Generative AI, intelligent systems, and financial markets.
 
-![NISM Series 8](https://img.shields.io/badge/NISM%20Series%208-Equity%20Derivatives-blue?style=for-the-badge)
-
 ---
 
 <p align="left">
