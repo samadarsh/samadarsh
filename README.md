@@ -10,7 +10,7 @@ AI & Data Science grad exploring Generative AI, intelligent systems, and financi
 
 <p align="left">
   <a href="https://git.io/streak-stats">
-    <img src="https://streak-stats.demolab.com/?user=Sam-Adarsh&theme=github-dark&hide_border=true" />
+    <img src="https://streak-stats.demolab.com/?user=Sam-Adarsh&theme=github&hide_border=true" />
   </a>
 </p>
 
