@@ -1,4 +1,4 @@
-# Hi, I'm Adarsh S
+# Hi, I'm Adarsh
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-111111?style=for-the-badge)](https://sam-adarsh.github.io/samadarsh-portfolio)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](http://linkedin.com/in/samadarsh14)
