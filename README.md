@@ -2,7 +2,7 @@
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-111111?style=for-the-badge)](https://samadarsh.github.io/samadarsh-portfolio)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](http://linkedin.com/in/samadarsh14)
-[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:samadarsh14@gmail.com)
+[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:adashmas1404@gmail.com)
 
 AI & Data Science grad exploring Generative AI, intelligent systems, and financial markets.
 
