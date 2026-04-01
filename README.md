@@ -1,9 +1,11 @@
 # Hi, I'm Adarsh
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-111111?style=for-the-badge)](https://samadarsh.github.io/samadarsh-portfolio)
-[![Haugtun](https://img.shields.io/badge/Haugtun-17320b?style=for-the-badge)](https://www.haugtun.in)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](http://linkedin.com/in/samadarsh14)
-[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:samadarsh14@gmail.com)
+<p align="left">
+  <a href="https://samadarsh.github.io/samadarsh-portfolio"><img src="https://img.shields.io/badge/Portfolio-ff8b3d?style=for-the-badge" /></a>&nbsp;
+  <a href="https://www.haugtun.in"><img src="https://img.shields.io/badge/Haugtun-17320b?style=for-the-badge" /></a>&nbsp;
+  <a href="http://linkedin.com/in/samadarsh14"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" /></a>&nbsp;
+  <a href="mailto:samadarsh14@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" /></a>
+</p>
 
 AI & Data Science grad exploring Generative AI, intelligent systems, and financial markets.
 
