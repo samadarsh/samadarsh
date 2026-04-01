@@ -1,6 +1,7 @@
 # Hi, I'm Adarsh
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-111111?style=for-the-badge)](https://samadarsh.github.io/samadarsh-portfolio)
+[![Haugtun](https://img.shields.io/badge/Haugtun-0B1F66?style=for-the-badge)](https://www.haugtun.in)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](http://linkedin.com/in/samadarsh14)
 [![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:samadarsh14@gmail.com)
 
