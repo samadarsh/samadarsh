@@ -1,6 +1,6 @@
 # Hi, I'm Adarsh
 
-<p align="center">
+<p align="left">
   <a href="https://sam-adarsh.github.io/samadarsh-portfolio"><img src="https://img.shields.io/badge/Portfolio-470000?style=for-the-badge" /></a>&nbsp;
   <a href="https://www.haugtun.in"><img src="https://img.shields.io/badge/Haugtun-17320b?style=for-the-badge" /></a>&nbsp;
   <a href="http://linkedin.com/in/samadarsh14"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" /></a>&nbsp;
@@ -11,7 +11,7 @@ AI & Data Science grad building with Generative AI and exploring its application
 
 ---
 
-<p align="center">
+<p align="left">
   <a href="https://git.io/streak-stats">
     <img src="https://streak-stats.demolab.com/?user=samadarsh&theme=github-dark&hide_border=true" />
   </a>
@@ -29,14 +29,14 @@ AI & Data Science grad building with Generative AI and exploring its application
 
 ### Featured Projects
 
-- 🔹 [RepoMind](https://github.com/samadarsh/RepoMind)  
-  LLM-based system to analyze and summarize GitHub repositories using a map-reduce architecture  
+- 🔹 [Credit Risk Scoring Pipeline](https://github.com/samadarsh/credit_risk_scoring_pipeline)  
+  End-to-end ML pipeline for credit risk assessment with data preprocessing, feature engineering, and model evaluation  
 
-- 🔹 [GenAI Email Generator](https://github.com/samadarsh/GenAI-Email-Generator)  
-  Generates personalized cold emails using LLMs, vector search, and structured prompts  
+- 🔹 [IPO Performance Analysis](https://github.com/samadarsh/IPO-Performance-Analysis)  
+  Data-driven analysis of IPO trends and post-listing performance to derive market insights  
 
-- 🔹 [Customer Segmentation](https://github.com/samadarsh/Customer-Segmentation)  
-  Machine learning-based segmentation using K-Means with data-driven insights and visualization  
+- 🔹 [Real Estate Price Prediction](https://github.com/samadarsh/real-estate-price-prediction)  
+  Machine learning model to predict property prices based on location and feature-based inputs  
 
 ---
 
