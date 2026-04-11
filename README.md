@@ -29,14 +29,23 @@ AI & Data Science grad building with Generative AI and exploring its application
 
 ### Featured Projects
 
-- 🔹 [Credit Risk Scoring Pipeline](https://github.com/samadarsh/credit_risk_scoring_pipeline)  
-  End-to-end ML pipeline for credit risk assessment with data preprocessing, feature engineering, and model evaluation  
+- 🔹 [RepoMind](https://github.com/samadarsh/RepoMind)  
+  LLM-based system to analyze and summarize GitHub repositories using a map-reduce architecture  
 
-- 🔹 [IPO Performance Analysis](https://github.com/samadarsh/IPO-Performance-Analysis)  
-  Data-driven analysis of IPO trends and post-listing performance to derive market insights  
+- 🔹 [GenAI Email Generator](https://github.com/samadarsh/GenAI-Email-Generator)  
+  Generates personalized cold emails using LLMs, vector search, and structured prompts  
 
 - 🔹 [Real Estate Price Prediction](https://github.com/samadarsh/real-estate-price-prediction)  
   Machine learning model to predict property prices based on location and feature-based inputs  
+
+---
+
+### Other Projects
+
+- 🔹 [Credit Risk Scoring Pipeline](https://github.com/samadarsh/credit_risk_scoring_pipeline)  
+- 🔹 [IPO Performance Analysis](https://github.com/samadarsh/IPO-Performance-Analysis)  
+- 🔹 [GenAI LinkedIn Post Generator](https://github.com/samadarsh/GenAI-Linkedin-Post-Generator)  
+- 🔹 [Mobile Game (Kivy)](https://github.com/samadarsh/Mobile-Game-Kivy)  
 
 ---
 
