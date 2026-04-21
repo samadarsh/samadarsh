@@ -1,9 +1,5 @@
 # Hi, I'm Adarsh
 
-<p align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F2027,100:2C5364&height=120&section=header"/>
-</p>
-
 <p align="left">
   <a href="https://sam-adarsh.github.io/samadarsh-portfolio"><img src="https://img.shields.io/badge/Portfolio-470000?style=for-the-badge" /></a>&nbsp;
   <a href="https://www.haugtun.in"><img src="https://img.shields.io/badge/Haugtun-17320b?style=for-the-badge" /></a>&nbsp;
