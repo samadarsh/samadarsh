@@ -1,13 +1,17 @@
 # Hi, I'm Adarsh
 
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F2027,100:2C5364&height=120&section=header"/>
+</p>
+
 <p align="left">
-  <a href="https://samadarsh.github.io/samadarsh-portfolio"><img src="https://img.shields.io/badge/Portfolio-470000?style=for-the-badge" /></a>&nbsp;
+  <a href="https://sam-adarsh.github.io/samadarsh-portfolio"><img src="https://img.shields.io/badge/Portfolio-470000?style=for-the-badge" /></a>&nbsp;
   <a href="https://www.haugtun.in"><img src="https://img.shields.io/badge/Haugtun-17320b?style=for-the-badge" /></a>&nbsp;
   <a href="http://linkedin.com/in/samadarsh14"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" /></a>&nbsp;
   <a href="mailto:samadarsh14@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" /></a>
 </p>
 
-AI & Data Science grad building with Generative AI and exploring its applications in intelligent systems and financial markets.
+AI & Data Science grad building with Generative AI and applying it to intelligent systems and financial markets.
 
 ---
 
@@ -17,6 +21,10 @@ AI & Data Science grad building with Generative AI and exploring its application
   </a>
 </p>
 
+<p align="left">
+  <img src="https://github-readme-stats.vercel.app/api?username=samadarsh&show_icons=true&theme=github_dark&hide_border=true" />
+</p>
+
 ---
 
 - 🔭 Currently going deeper into Generative AI, LLM internals, and production-ready ML systems  
@@ -24,6 +32,16 @@ AI & Data Science grad building with Generative AI and exploring its application
 - 🌱 Exploring transformers, RAG pipelines, evaluation strategies, and deployment workflows  
 - ⚙️ Focused on building practical, end-to-end systems — not just running experiments  
 - 📈 Particularly interested in applying AI to finance, analytics, and intelligent automation  
+
+---
+
+### Tech Stack
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Machine Learning](https://img.shields.io/badge/Machine%20Learning-FF6F00?style=for-the-badge)
+![Generative AI](https://img.shields.io/badge/Generative%20AI-6E2AA0?style=for-the-badge)
+![NLP](https://img.shields.io/badge/NLP-008080?style=for-the-badge)
+![SQL](https://img.shields.io/badge/SQL-336791?style=for-the-badge)
 
 ---
 
