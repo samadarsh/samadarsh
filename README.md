@@ -17,10 +17,6 @@ AI & Data Science grad building with Generative AI and applying it to intelligen
   </a>
 </p>
 
-<p align="left">
-  <img src="https://github-readme-stats.vercel.app/api?username=samadarsh&show_icons=true&theme=github_dark&hide_border=true" />
-</p>
-
 ---
 
 - 🔭 Currently going deeper into Generative AI, LLM internals, and production-ready ML systems  
