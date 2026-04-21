@@ -29,11 +29,13 @@ AI & Data Science grad building with Generative AI and applying it to intelligen
 
 ### Tech Stack
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Machine Learning](https://img.shields.io/badge/Machine%20Learning-FF6F00?style=for-the-badge)
-![Generative AI](https://img.shields.io/badge/Generative%20AI-6E2AA0?style=for-the-badge)
-![NLP](https://img.shields.io/badge/NLP-008080?style=for-the-badge)
-![SQL](https://img.shields.io/badge/SQL-336791?style=for-the-badge)
+<p align="left">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />&nbsp;
+  <img src="https://img.shields.io/badge/Machine%20Learning-FF6F00?style=for-the-badge" />&nbsp;
+  <img src="https://img.shields.io/badge/Generative%20AI-6E2AA0?style=for-the-badge" />&nbsp;
+  <img src="https://img.shields.io/badge/NLP-008080?style=for-the-badge" />&nbsp;
+  <img src="https://img.shields.io/badge/SQL-336791?style=for-the-badge" />
+</p>
 
 ---
 
