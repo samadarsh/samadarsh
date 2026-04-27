@@ -1,7 +1,7 @@
 # Hi, I'm Adarsh
 
 <p align="left">
-  <a href="https://sam-adarsh.github.io/samadarsh-portfolio"><img src="https://img.shields.io/badge/Portfolio-6B1F1F?style=for-the-badge" /></a>&nbsp;
+  <a href="https://samadarsh.github.io/samadarsh-portfolio"><img src="https://img.shields.io/badge/Portfolio-6B1F1F?style=for-the-badge" /></a>&nbsp;
   <a href="https://www.haugtun.in"><img src="https://img.shields.io/badge/Haugtun-1F4D1A?style=for-the-badge" /></a>&nbsp;
   <a href="http://linkedin.com/in/samadarsh14"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" /></a>&nbsp;
   <a href="mailto:samadarsh14@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" /></a>
@@ -13,7 +13,7 @@ AI & Data Science grad building with Generative AI and applying it to intelligen
 
 <p align="left">
   <a href="https://git.io/streak-stats">
-    <img src="https://streak-stats.demolab.com/?user=samadarsh&theme=github-dark&hide_border=true" />
+    <img src="https://streak-stats.demolab.com?user=samadarsh&theme=dark&hide_border=true" alt="GitHub Streak" />
   </a>
 </p>
 
