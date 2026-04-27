@@ -42,7 +42,7 @@ AI & Data Science grad building with Generative AI and applying it to intelligen
 ### Featured Projects
 
 - 🔸 [RepoMind](https://github.com/samadarsh/RepoMind)  
-  LLM-based system to analyze and summarize GitHub repositories using a map-reduce architecture and structured reasoning  
+  LLM-powered system that analyzes and generates structured architectural overviews of GitHub repositories using a map-reduce pipeline  
 
 - 🔸 [GenAI Email Generator](https://github.com/samadarsh/GenAI-Email-Generator)  
   Generates personalized cold emails using LLMs, vector search, and structured prompts  
