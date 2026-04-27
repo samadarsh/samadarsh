@@ -13,7 +13,7 @@ AI & Data Science grad building with Generative AI and applying it to intelligen
 
 <p align="left">
   <a href="https://git.io/streak-stats">
-    <img src="https://streak-stats.demolab.com?user=samadarsh&theme=ads-juicy-fresh&hide_border=true" alt="GitHub Streak" />
+    <img src="https://streak-stats.demolab.com?user=samadarsh&theme=rising-sun&hide_border=true" alt="GitHub Streak" />
   </a>
 </p>
 
