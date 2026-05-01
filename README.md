@@ -22,7 +22,7 @@ AI & Data Science grad building with Generative AI and applying it to intelligen
 - 🔭 Currently going deeper into Generative AI, LLM internals, and production-ready ML systems  
 - 📊 With a trading background (Equity & F&O), I naturally think in probabilities, risk, and structured decision-making  
 - 🌱 Exploring transformers, RAG pipelines, evaluation strategies, and deployment workflows  
-- ⚙️ Focused on building practical, end-to-end systems — not just running experiments  
+- ⚙️ Focused on building practical, end-to-end systems - not just running experiments  
 - 📈 Particularly interested in applying AI to finance, analytics, and intelligent automation  
 
 ---
