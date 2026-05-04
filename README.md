@@ -44,20 +44,19 @@ AI & Data Science grad building with Generative AI and applying it to intelligen
 - 🔸 [RepoMind](https://github.com/samadarsh/RepoMind)  
   LLM-based system to analyze and summarize GitHub repositories using a map-reduce architecture and structured reasoning  
 
+- 🔸 [VoiceNote AI](https://github.com/samadarsh/VoiceNote-AI)  
+  Multilingual AI voice-note assistant using Whisper, Groq LLMs, and Streamlit for transcription, intent extraction, summarization, and structured note storage  
+
 - 🔸 [GenAI Email Generator](https://github.com/samadarsh/GenAI-Email-Generator)  
   Generates personalized cold emails using LLMs, vector search, and structured prompts  
-
-- 🔸 [Real Estate Price Prediction](https://github.com/samadarsh/real-estate-price-prediction)  
-  Machine learning model to predict property prices based on location and feature-based inputs  
 
 ---
 
 ### Other Projects
 
 - 🔹 [GenAI LinkedIn Post Generator](https://github.com/samadarsh/GenAI-Linkedin-Post-Generator)  
-- 🔹 [Credit Risk Scoring Pipeline](https://github.com/samadarsh/credit_risk_scoring_pipeline)  
+- 🔹 [Real Estate Price Prediction](https://github.com/samadarsh/real-estate-price-prediction)  
 - 🔹 [IPO Performance Analysis](https://github.com/samadarsh/IPO-Performance-Analysis)  
-- 🔹 [Mobile Game (Kivy)](https://github.com/samadarsh/Mobile-Game-Kivy)  
 
 ---
 
