@@ -7,7 +7,7 @@
   <a href="mailto:samadarsh14@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" /></a>
 </p>
 
-Building intelligent systems with Generative AI, focused on real-world applications in finance.  
+Building intelligent systems with Generative AI, focused on real-world applications in finance.
 
 ---
 
