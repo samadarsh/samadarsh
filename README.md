@@ -45,7 +45,7 @@ AI & Data Science grad building with Generative AI and applying it to intelligen
   LLM-based system to analyze and summarize GitHub repositories using a map-reduce architecture and structured reasoning  
 
 - 🔸 [VoiceNote AI](https://github.com/samadarsh/VoiceNote-AI)  
-  Multilingual AI voice-note assistant using Whisper, Groq LLMs, and Streamlit for transcription, intent extraction, summarization, and structured note storage  
+  Multilingual AI voice-note assistant for transcription, intent extraction, and structured summarization 
 
 - 🔸 [GenAI Email Generator](https://github.com/samadarsh/GenAI-Email-Generator)  
   Generates personalized cold emails using LLMs, vector search, and structured prompts  
