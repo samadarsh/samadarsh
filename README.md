@@ -7,7 +7,7 @@
   <a href="mailto:samadarsh14@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" /></a>
 </p>
 
-AI & Data Science grad building with Generative AI and applying it to intelligent systems and financial markets.
+Building intelligent systems with Generative AI, focused on real-world applications in finance.
 
 ---
 
