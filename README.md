@@ -1,4 +1,4 @@
-# Hi, I'm Adarsh S
+# Hi, I'm Adarsh
 
 <p align="left">
   <a href="https://samadarsh.vercel.app"><img src="https://img.shields.io/badge/Portfolio-6B1F1F?style=for-the-badge" /></a>&nbsp;
