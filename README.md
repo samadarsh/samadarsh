@@ -1,9 +1,9 @@
 # Hi, I'm Adarsh
 
 <p align="left">
-  <a href="https://samadarsh.vercel.app"><img src="https://img.shields.io/badge/Portfolio-6B1F1F?style=for-the-badge" /></a> 
-  <a href="https://www.haugtun.in"><img src="https://img.shields.io/badge/Haugtun-1F4D1A?style=for-the-badge" /></a> 
-  <a href="https://linkedin.com/in/samadarsh14"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" /></a> 
+  <a href="https://samadarsh.vercel.app"><img src="https://img.shields.io/badge/Portfolio-6B1F1F?style=for-the-badge" /></a>&nbsp;
+  <a href="https://www.haugtun.in"><img src="https://img.shields.io/badge/Haugtun-1F4D1A?style=for-the-badge" /></a>&nbsp;
+  <a href="https://linkedin.com/in/samadarsh14"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" /></a>&nbsp;
   <a href="mailto:samadarsh14@gmail.com"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" /></a>
 </p>
 
@@ -19,21 +19,21 @@ Building intelligent systems with Generative AI, focused on real-world applicati
 
 ---
 
-- 🔭 Currently going deeper into Generative AI, LLM internals, and production-ready ML systems
-- 📊 With a trading background (Equity & F&O), I naturally think in probabilities, risk, and structured decision-making
-- 🌱 Exploring transformers, RAG pipelines, evaluation strategies, and deployment workflows
-- ⚙️ Focused on building practical, end-to-end systems — not just running experiments
-- 📈 Particularly interested in applying AI to finance, analytics, and intelligent automation
+- 🔭 Currently going deeper into Generative AI, LLM internals, and production-ready ML systems  
+- 📊 With a trading background (Equity & F&O), I naturally think in probabilities, risk, and structured decision-making  
+- 🌱 Exploring transformers, RAG pipelines, evaluation strategies, and deployment workflows  
+- ⚙️ Focused on building practical, end-to-end systems - not just running experiments  
+- 📈 Particularly interested in applying AI to finance, analytics, and intelligent automation  
 
 ---
 
 ### Tech Stack
 
 <p align="left">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" /> 
-  <img src="https://img.shields.io/badge/Machine%20Learning-E67E22?style=for-the-badge" /> 
-  <img src="https://img.shields.io/badge/Generative%20AI-6E2AA0?style=for-the-badge" /> 
-  <img src="https://img.shields.io/badge/NLP-229954?style=for-the-badge" /> 
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />&nbsp;
+  <img src="https://img.shields.io/badge/Machine%20Learning-E67E22?style=for-the-badge" />&nbsp;
+  <img src="https://img.shields.io/badge/Generative%20AI-6E2AA0?style=for-the-badge" />&nbsp;
+  <img src="https://img.shields.io/badge/NLP-229954?style=for-the-badge" />&nbsp;
   <img src="https://img.shields.io/badge/SQL-2C5F8A?style=for-the-badge" />
 </p>
 
@@ -41,44 +41,37 @@ Building intelligent systems with Generative AI, focused on real-world applicati
 
 ### Featured Projects
 
-- 🔸 Fin-Sight  
-  AI-powered financial intelligence platform leveraging Generative AI, market analytics, and structured data workflows to deliver actionable investment insights and intelligent financial research
+- 🔸 [Fin-Sight](https://github.com/samadarsh/fin-sight)  
+  AI-powered financial intelligence platform for market analysis, financial research, and investment insights using Generative AI  
 
-  Python • Generative AI • Finance • LLMs
+- 🔸 [RepoMind](https://github.com/samadarsh/RepoMind)  
+  LLM-based system to analyze and summarize GitHub repositories using a map-reduce architecture and structured reasoning  
 
-- 🔸 RepoMind  
-  LLM-based system to analyze and summarize GitHub repositories using a map-reduce architecture and structured reasoning
-
-  Python • LLMs • RAG • GitHub
-
-- 🔸 VoiceNote AI  
-  Multilingual AI voice-note assistant for transcription, intent extraction, and structured summarization
-
-  Speech-to-Text • NLP • Generative AI
+- 🔸 [VoiceNote AI](https://github.com/samadarsh/VoiceNote-AI)  
+  Multilingual AI voice-note assistant for transcription, intent extraction, and structured summarization  
 
 ---
 
 ### Other Projects
 
-- 🔹 GenAI Email Generator  
-  Generates personalized cold emails using LLMs, vector search, and structured prompts
+- 🔹 [GenAI Email Generator](https://github.com/samadarsh/GenAI-Email-Generator)  
+  Generates personalized cold emails using LLMs, vector search, and structured prompts  
 
-- 🔹 GenAI LinkedIn Post Generator  
-  AI-powered content generation tool for creating engaging LinkedIn posts
+- 🔹 [GenAI LinkedIn Post Generator](https://github.com/samadarsh/GenAI-Linkedin-Post-Generator)  
+  Generates professional LinkedIn posts using LLMs and structured content generation workflows  
 
-- 🔹 Real Estate Price Prediction  
-  Machine learning model for predicting property prices using market and location-based features
-
----
-
-### What You'll Find Here
-
-- Machine Learning & Generative AI projects
-- Production-oriented AI workflows
-- Financial analytics & system-driven thinking
-- End-to-end application development
-- Continuous learning in public
+- 🔹 [Real Estate Price Prediction](https://github.com/samadarsh/real-estate-price-prediction)  
+  Machine learning model for predicting property prices using market and location-based features  
 
 ---
 
-⭐ Build first. Learn faster.
+### What you'll find here
+
+- Machine Learning & GenAI projects  
+- Structured, reproducible workflows  
+- Financial analytics & system-driven thinking  
+- Continuous learning in public  
+
+---
+
+⭐ *Build first. Learn faster.*
