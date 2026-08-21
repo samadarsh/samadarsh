@@ -13,7 +13,7 @@ Building intelligent systems with Generative AI, focused on real-world applicati
 
 <p align="left">
   <a href="https://git.io/streak-stats">
-    <img src="https://streak-stats.demolab.com?user=samadarsh&theme=sunrise&hide_border=true" alt="GitHub Streak" />
+    <img src="https://streak-stats.demolab.com?user=samadarsh&theme=sun-rise&hide_border=true" alt="GitHub Streak" />
   </a>
 </p>
 
