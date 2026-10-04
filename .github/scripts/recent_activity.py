@@ -4,6 +4,7 @@ across the owner's public repositories."""
 import json
 import os
 import re
+import urllib.error
 import urllib.request
 from datetime import datetime
 from pathlib import Path
@@ -39,11 +40,20 @@ def recent_repos():
     ][:MAX_REPOS]
 
 
+def repo_commits(repo):
+    try:
+        return api(f"/repos/{repo['full_name']}/commits?author={USER}&per_page=20")
+    except urllib.error.HTTPError as err:
+        if err.code == 409:  # empty repository
+            return []
+        raise
+
+
 def recent_commits(repos):
     commits = []
     for repo in repos:
         kept = 0
-        for c in api(f"/repos/{repo['full_name']}/commits?author={USER}&per_page=20"):
+        for c in repo_commits(repo):
             message = c["commit"]["message"].splitlines()[0].strip()
             if len(c["parents"]) > 1 or NOISE.search(message):
                 continue
