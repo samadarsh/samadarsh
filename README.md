@@ -21,11 +21,11 @@ class Adarsh:
 ### Recent activity
 
 <!-- recent-activity:start -->
-- [`32acde6`](https://github.com/samadarsh/fin-sight/commit/32acde65a83bb8727764c12745e92cf50b4c1791) Stop tracking the personal learning guide in git · [fin-sight](https://github.com/samadarsh/fin-sight) · Jun 2, 2026
-- [`fa3a835`](https://github.com/samadarsh/fin-sight/commit/fa3a8359bb859fde9bec524700f3af6593b61497) Harden FinSight for production-quality RAG responses and API safety · [fin-sight](https://github.com/samadarsh/fin-sight) · Jun 2, 2026
-- [`9b93070`](https://github.com/samadarsh/VoiceNote-AI/commit/9b9307069f90430e0bd4555e4a04ec16f0188b97) Fix sample audio: re-encode MP3-mislabeled .wav to real 16kHz mono WAV · [VoiceNote-AI](https://github.com/samadarsh/VoiceNote-AI) · May 29, 2026
-- [`cbc1cee`](https://github.com/samadarsh/VoiceNote-AI/commit/cbc1cee5ca46745013ccbdfd3bc6a7b57773414d) Fix HF Space startup: pin Python 3.10 and add audioop backport · [VoiceNote-AI](https://github.com/samadarsh/VoiceNote-AI) · May 29, 2026
-- [`034b813`](https://github.com/samadarsh/RepoMind/commit/034b813c5ac564a4115bcd281f91068ebbbbd275) feat: production hardening — log rotation, URL validation, pipeline metrics, execution timing · [RepoMind](https://github.com/samadarsh/RepoMind) · Mar 28, 2026
+- [`e628570`](https://github.com/samadarsh/samadarsh-portfolio/commit/e628570a3557ba3282af2624b24e1352828660af) Link previews per page, ~3x faster phone load, analytics, new assistant icon, and polish (#22) · [samadarsh-portfolio](https://github.com/samadarsh/samadarsh-portfolio) · Oct 4, 2026
+- [`6d817d9`](https://github.com/samadarsh/samadarsh-portfolio/commit/6d817d99c8a2bf732b723f9b09d1d6eb49d9568b) Turn off pop-up notifications on phones (#21) · [samadarsh-portfolio](https://github.com/samadarsh/samadarsh-portfolio) · Oct 4, 2026
+- [`13e17a0`](https://github.com/samadarsh/BiteWise/commit/13e17a0d082588f994a23503895052ed607c0cc3) fix: close auth takeovers, enforce allergy safety, harden order + Instamart flows · [BiteWise](https://github.com/samadarsh/BiteWise) · Sep 28, 2026
+- [`1dae3c2`](https://github.com/samadarsh/BiteWise/commit/1dae3c2fbd4fecbd2efbd25b038612a08784fcb4) fix(auth): base cookie Secure flag on actual connection scheme, not mock/live mode · [BiteWise](https://github.com/samadarsh/BiteWise) · Sep 6, 2026
+- [`795e4e3`](https://github.com/samadarsh/oor-snacks/commit/795e4e393fe663588ded39296e868acc7d0e6383) chore: ignore client-specific files · [oor-snacks](https://github.com/samadarsh/oor-snacks) · Jun 11, 2026
 <!-- recent-activity:end -->
 
 ### Contributions
