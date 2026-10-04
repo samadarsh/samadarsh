@@ -1,7 +1,14 @@
 ## Hi, I'm Adarsh
 
-I build Generative AI systems for finance. With a background in Equity & F&O trading,
-I approach ML the way I approached markets: probabilities, risk, and disciplined decisions.
+```python
+class Adarsh:
+    focus      = "Generative AI for finance"
+    background = "Equity & F&O trading"
+    mindset    = "probabilities, risk, disciplined decisions"
+    learning   = ["LLM internals", "RAG evaluation", "Production ML"]
+    stack      = ["Python", "SQL", "PyTorch", "LangChain", "Hugging Face",
+                  "FastAPI", "ChromaDB", "Streamlit", "Gradio", "Docker"]
+```
 
 [Portfolio](https://samadarsh.vercel.app) · [LinkedIn](https://linkedin.com/in/samadarsh14) · [Email](mailto:samadarsh14@gmail.com)
 
@@ -11,10 +18,10 @@ I approach ML the way I approached markets: probabilities, risk, and disciplined
 - **[RepoMind](https://github.com/samadarsh/RepoMind)**: LLM pipeline that turns any GitHub repository into a structured architectural overview using map-reduce analysis
 - **[VoiceNote AI](https://github.com/samadarsh/VoiceNote-AI)**: Tamil voice-note transcription with Whisper and a custom Tamil-to-Latin romanizer
 
-### Currently working on
+### Contributions
 
-LLM internals · RAG pipelines · Evaluation · Production ML deployment
-
-### Stack
-
-Python · SQL · PyTorch · LangChain · Hugging Face · FastAPI · ChromaDB · Streamlit · Gradio · Docker
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/output/github-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/output/github-snake.svg" />
+  <img alt="Contribution graph animated as a snake" src="https://raw.githubusercontent.com/samadarsh/samadarsh/output/github-snake.svg" />
+</picture>
