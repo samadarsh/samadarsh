@@ -1,5 +1,5 @@
-"""Render the profile README images (banner, project cards, activity strip) as
-light and dark SVGs. Project languages and weekly commits come from the GitHub REST API."""
+"""Render the profile README images (banner, project cards, terminal, activity strip)
+as light and dark SVGs. Stats come from the GitHub REST API."""
 
 import json
 import os
@@ -21,6 +21,12 @@ PROJECTS = [
     ("RepoMind", "Map-reduce LLM pipeline that explains", "any GitHub repository."),
     ("fin-sight", "RAG over financial filings with", "page-level citations."),
     ("VoiceNote-AI", "Tamil speech-to-text with Whisper and", "a custom romanizer."),
+]
+RAG_COMMAND = 'python rag.py "what does adarsh do?"'
+RAG_ANSWER = [
+    "Builds LLM applications end to end:",
+    "data ingestion, retrieval, prompting,",
+    "APIs and deployment.",
 ]
 DISPLAY_NAMES = {"fin-sight": "Fin-Sight", "VoiceNote-AI": "VoiceNote AI"}
 LANGUAGE_COLORS = {"Python": "#3572A5", "TypeScript": "#3178C6", "JavaScript": "#F1E05A"}
@@ -56,7 +62,7 @@ def api(path):
 def svg(width, height, label, body, css=""):
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
-        f'viewBox="0 0 {width} {height}" role="img" aria-label="{escape(label)}">'
+        f'viewBox="0 0 {width} {height}" role="img" aria-label="{escape(label, {chr(34): "&quot;"})}">'
         f"<style>text{{font-family:{SANS}}}.mono{{font-family:{MONO}}}{css}</style>{body}</svg>"
     )
 
@@ -134,17 +140,69 @@ def activity(c, weeks):
     return svg(w, h, f"{total} commits in the last 52 weeks", body)
 
 
-def weekly_commits():
-    """Commits by USER per week (weeks start Sunday, UTC) over the last 52 weeks,
-    counted from each repository's default branch."""
+def terminal(c, repos):
+    """A mini RAG session about the profile; the answer streams in word by word."""
+    w = 860
+    prompt_y = 146 + len(RAG_ANSWER) * 22 + 10
+    h = prompt_y + 22
+    words = [line.split() for line in RAG_ANSWER]
+    start, per_word = 1.6, 0.07
+    answer, n = [], 0
+    for i, line in enumerate(words):
+        spans = []
+        for word in line:
+            spans.append(f'<tspan class="t" style="animation-delay:{start + n * per_word:.2f}s">{escape(word)}</tspan>')
+            n += 1
+        prefix = f'<tspan fill="{c["accent"]}">→ </tspan>' if i == 0 else "  "
+        answer.append(
+            f'<text x="24" y="{146 + i * 22}" font-size="14" class="mono" fill="{c["fg"]}" xml:space="preserve">'
+            f'{prefix}{" ".join(spans)}</text>'
+        )
+    steps = [
+        ("[retrieve]", f"{repos} repos indexed · 3 chunks retrieved", 94, 0.5),
+        ("[generate]", "streaming...", 118, 1.1),
+    ]
+    step_rows = "".join(
+        f'<text x="24" y="{y}" font-size="14" class="mono l" style="animation-delay:{d}s" xml:space="preserve">'
+        f'<tspan fill="{c["accent"]}">{tag}</tspan>  <tspan fill="{c["muted"]}">{escape(text)}</tspan></text>'
+        for tag, text, y, d in steps
+    )
+    dots = "".join(
+        f'<circle cx="{22 + i * 18}" cy="17" r="5.5" fill="{color}"/>'
+        for i, color in enumerate(("#ff5f57", "#febc2e", "#28c840"))
+    )
+    end = start + n * per_word
+    body = (
+        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="10" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<line x1="0" x2="{w}" y1="34" y2="34" stroke="{c["border"]}"/>{dots}'
+        f'<text x="{w / 2}" y="22" font-size="12" class="mono" text-anchor="middle" fill="{c["muted"]}">{USER.lower()} — zsh</text>'
+        f'<text x="24" y="66" font-size="14" class="mono"><tspan fill="{c["accent"]}">~ $ </tspan>'
+        f'<tspan fill="{c["fg"]}">{escape(RAG_COMMAND)}</tspan></text>'
+        f"{step_rows}{''.join(answer)}"
+        f'<text x="24" y="{prompt_y}" font-size="14" class="mono l" style="animation-delay:{end + 0.3:.2f}s" fill="{c["accent"]}">'
+        f'~ $ <tspan class="cur">█</tspan></text>'
+    )
+    css = (
+        ".l{animation:in .4s ease-out both}@keyframes in{from{opacity:0}to{opacity:1}}"
+        ".t{animation:tok .2s ease-out both}@keyframes tok{from{fill-opacity:0}to{fill-opacity:1}}"
+        ".cur{animation:blink 1.1s steps(1) infinite}@keyframes blink{50%{opacity:0}}"
+        "@media (prefers-reduced-motion:reduce){.l,.t,.cur{animation:none}}"
+    )
+    label = f"$ {RAG_COMMAND} — retrieved from {repos} repos; answer: {' '.join(RAG_ANSWER)}"
+    return svg(w, h, label, body, css)
+
+
+def collect_stats():
+    """Public, non-fork repo count, and the user's own commits per week on each
+    default branch over the last 52 weeks (weeks start Sunday, UTC)."""
     now = datetime.now(timezone.utc)
     first = (now - timedelta(days=(now.weekday() + 1) % 7, weeks=51)).replace(hour=0, minute=0, second=0, microsecond=0)
     since = first.strftime("%Y-%m-%dT%H:%M:%SZ")
     weeks = [0] * 52
 
-    repos = api(f"/users/{USER}/repos?type=owner&per_page=100") or []
+    repos = [r for r in api(f"/users/{USER}/repos?type=owner&per_page=100") or [] if not r["fork"]]
     for repo in repos:
-        if repo["fork"] or not repo["size"]:
+        if not repo["size"]:
             continue
         for page in range(1, 11):
             commits = api(f"/repos/{repo['full_name']}/commits?author={USER}&since={since}&per_page=100&page={page}")
@@ -155,22 +213,23 @@ def weekly_commits():
                     weeks[index] += 1
             if len(commits) < 100:
                 break
-    return weeks
+    return {"weeks": weeks, "repos": len(repos)}
 
 
 def main():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     languages = {name: (api(f"/repos/{USER}/{name}") or {}).get("language") or "Python" for name, *_ in PROJECTS}
-    weeks = weekly_commits()
+    stats = collect_stats()
 
     for theme, c in THEMES.items():
         suffix = "" if theme == "light" else "-dark"
         (OUT_DIR / f"banner{suffix}.svg").write_text(banner(c))
-        (OUT_DIR / f"activity{suffix}.svg").write_text(activity(c, weeks))
+        (OUT_DIR / f"terminal{suffix}.svg").write_text(terminal(c, stats["repos"]))
+        (OUT_DIR / f"activity{suffix}.svg").write_text(activity(c, stats["weeks"]))
         for name, *lines in PROJECTS:
             label = DISPLAY_NAMES.get(name, name)
             (OUT_DIR / f"card-{name.lower()}{suffix}.svg").write_text(card(c, label, lines, languages[name]))
-    print(f"{sum(weeks)} commits in the last 52 weeks; languages: {languages}")
+    print(f"{sum(stats['weeks'])} commits in the last 52 weeks; {stats}")
 
 
 if __name__ == "__main__":
