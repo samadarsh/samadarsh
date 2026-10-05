@@ -27,12 +27,12 @@ LANGUAGE_COLORS = {"Python": "#3572A5", "TypeScript": "#3178C6", "JavaScript": "
 
 THEMES = {
     "light": {
-        "bg": "#ffffff", "hero_a": "#f6f8fa", "hero_b": "#eef3fa", "border": "#d0d7de",
-        "fg": "#1f2328", "muted": "#59636e", "accent": "#0969da", "net": "#0969da", "net_op": ".22",
+        "bg": "#ffffff", "hero_a": "#f6f8fa", "hero_b": "#fbf1e8", "border": "#d0d7de",
+        "fg": "#1f2328", "muted": "#59636e", "accent": "#bc4c00", "net": "#bc4c00", "net_op": ".22",
     },
     "dark": {
-        "bg": "#0d1117", "hero_a": "#0f1624", "hero_b": "#0d1117", "border": "#30363d",
-        "fg": "#e6edf3", "muted": "#9198a1", "accent": "#4493f8", "net": "#4493f8", "net_op": ".28",
+        "bg": "#0d1117", "hero_a": "#1a1511", "hero_b": "#0d1117", "border": "#30363d",
+        "fg": "#e6edf3", "muted": "#9198a1", "accent": "#f0883e", "net": "#f0883e", "net_op": ".28",
     },
 }
 SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif"
