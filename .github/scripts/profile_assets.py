@@ -1,10 +1,10 @@
 """Render the profile README images (banner, project cards, activity strip) as
-light and dark SVGs. Project languages and weekly commits come from the GitHub API."""
+light and dark SVGs. Project languages and weekly commits come from the GitHub REST API."""
 
 import json
 import os
 import sys
-import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -39,18 +39,18 @@ SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, A
 MONO = "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
 
 
-def api(path, retries=8):
-    """GET a REST endpoint. Stats endpoints answer 202 while GitHub computes them."""
+def api(path):
     req = urllib.request.Request(f"https://api.github.com{path}")
     req.add_header("Accept", "application/vnd.github+json")
     if TOKEN:
         req.add_header("Authorization", f"Bearer {TOKEN}")
-    for _ in range(retries):
+    try:
         with urllib.request.urlopen(req, timeout=30) as resp:
-            if resp.status != 202:
-                return json.load(resp)
-        time.sleep(3)
-    return None
+            return json.load(resp)
+    except urllib.error.HTTPError as err:
+        if err.code == 409:  # empty repository
+            return []
+        raise
 
 
 def svg(width, height, label, body, css=""):
@@ -135,27 +135,26 @@ def activity(c, weeks):
 
 
 def weekly_commits():
-    """Commits by USER per week (weeks start Sunday, UTC) over the last 52 weeks."""
+    """Commits by USER per week (weeks start Sunday, UTC) over the last 52 weeks,
+    counted from each repository's default branch."""
     now = datetime.now(timezone.utc)
-    this_week = (now - timedelta(days=(now.weekday() + 1) % 7)).replace(hour=0, minute=0, second=0, microsecond=0)
-    starts = [int((this_week - timedelta(weeks=51 - i)).timestamp()) for i in range(52)]
-    index = {s: i for i, s in enumerate(starts)}
+    first = (now - timedelta(days=(now.weekday() + 1) % 7, weeks=51)).replace(hour=0, minute=0, second=0, microsecond=0)
+    since = first.strftime("%Y-%m-%dT%H:%M:%SZ")
     weeks = [0] * 52
 
     repos = api(f"/users/{USER}/repos?type=owner&per_page=100") or []
     for repo in repos:
         if repo["fork"] or not repo["size"]:
             continue
-        stats = api(f"/repos/{repo['full_name']}/stats/contributors")
-        if stats is None:
-            print(f"warning: stats not ready for {repo['full_name']}, skipped")
-            continue
-        for entry in stats or []:
-            if (entry.get("author") or {}).get("login", "").lower() != USER.lower():
-                continue
-            for week in entry["weeks"]:
-                if week["w"] in index:
-                    weeks[index[week["w"]]] += week["c"]
+        for page in range(1, 11):
+            commits = api(f"/repos/{repo['full_name']}/commits?author={USER}&since={since}&per_page=100&page={page}")
+            for c in commits:
+                date = datetime.fromisoformat(c["commit"]["author"]["date"].replace("Z", "+00:00"))
+                index = (date - first).days // 7
+                if 0 <= index < 52:
+                    weeks[index] += 1
+            if len(commits) < 100:
+                break
     return weeks
 
 
