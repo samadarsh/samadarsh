@@ -13,4 +13,4 @@ class Adarsh:
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/output/terminal-dark.svg?v=5" /><img alt="Terminal running a mini RAG query: what does Adarsh do? Builds LLM applications end to end: data ingestion, retrieval, prompting, APIs and deployment." src="https://raw.githubusercontent.com/samadarsh/samadarsh/output/terminal.svg?v=5" /></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/output/activity-dark.svg?v=5" /><img alt="Weekly commits over the last 52 weeks" src="https://raw.githubusercontent.com/samadarsh/samadarsh/output/activity.svg?v=5" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/output/activity-dark.svg?v=6" /><img alt="Weekly commits over the last 52 weeks" src="https://raw.githubusercontent.com/samadarsh/samadarsh/output/activity.svg?v=6" /></picture>
