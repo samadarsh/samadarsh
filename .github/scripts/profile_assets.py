@@ -118,26 +118,60 @@ def card(c, name, lines, language):
     return svg(w, h, f"{name}: {' '.join(lines)}", body)
 
 
-def activity(c, weeks):
-    w, h = 860, 96
-    top, bottom, slot = 28, 88, w / len(weeks)
-    peak = max(weeks) or 1
-    bars = []
+def activity(c, weeks, first):
+    """Weekly commit bars in a frame: rounded tops, month labels, the peak week
+    labeled and a dashed weekly average. Bars grow in on load."""
+    w, h = 860, 200
+    x0, x1, top, bottom = 24, w - 24, 58, 156
+    slot = (x1 - x0) / len(weeks)
+    total, peak = sum(weeks), max(weeks)
+    avg = total / len(weeks)
+    y = lambda v: bottom - (bottom - top) * v / (peak or 1)
+
+    marks = []
     for i, v in enumerate(weeks):
-        bh = max(2, (bottom - top) * v / peak) if v else 2
-        fill, opacity = (c["accent"], 0.35 + 0.65 * v / peak) if v else (c["border"], 1)
-        bars.append(
-            f'<rect x="{i * slot + 2:.1f}" y="{bottom - bh:.1f}" width="{slot - 4:.1f}" '
-            f'height="{bh:.1f}" rx="2" fill="{fill}" fill-opacity="{opacity:.2f}"/>'
+        x = x0 + i * slot + 1
+        if not v:
+            marks.append(f'<rect x="{x:.1f}" y="{bottom - 2}" width="{slot - 2:.1f}" height="2" rx="1" fill="{c["border"]}"/>')
+            continue
+        bh = max(4, bottom - y(v))
+        marks.append(
+            f'<path class="b" style="animation-delay:{i * 0.015:.2f}s" fill="{c["accent"]}" '
+            f'd="M{x:.1f},{bottom} v{-(bh - 3):.1f} q0,-3 3,-3 h{slot - 8:.1f} q3,0 3,3 v{bh - 3:.1f}z"/>'
         )
-    total = sum(weeks)
+
+    labels = []
+    if peak:
+        ay = y(avg)
+        labels.append(f'<line x1="{x0}" x2="{x1}" y1="{ay:.1f}" y2="{ay:.1f}" stroke="{c["muted"]}" stroke-dasharray="3 4" stroke-opacity=".7"/>')
+        labels.append(f'<text x="{x0}" y="{ay - 6:.1f}" font-size="11" class="mono" fill="{c["muted"]}">avg {avg:.1f}/wk</text>')
+        i = weeks.index(peak)
+        date = first + timedelta(weeks=i)
+        px = min(max(x0 + i * slot + slot / 2, x0 + 40), x1 - 40)
+        labels.append(
+            f'<text x="{px:.1f}" y="{y(peak) - 8:.1f}" font-size="11" class="mono" text-anchor="middle" '
+            f'fill="{c["fg"]}">{peak} · {date:%b} {date.day}</text>'
+        )
+    last_month = first.month
+    for i in range(1, len(weeks)):
+        date = first + timedelta(weeks=i)
+        if date.month != last_month:
+            labels.append(f'<text x="{x0 + i * slot:.1f}" y="{bottom + 22}" font-size="11" class="mono" fill="{c["muted"]}">{date:%b}</text>')
+        last_month = date.month
+
     body = (
-        f'<text x="0" y="14" font-size="13" font-weight="600" fill="{c["fg"]}">{total} commits</text>'
-        f'<text x="{w}" y="14" font-size="12" class="mono" text-anchor="end" fill="{c["muted"]}">last 52 weeks</text>'
-        + "".join(bars)
-        + f'<line x1="0" x2="{w}" y1="{bottom + 4}" y2="{bottom + 4}" stroke="{c["border"]}"/>'
+        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="10" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<text x="{x0}" y="34" font-size="15" font-weight="600" fill="{c["fg"]}">{total} commits</text>'
+        f'<text x="{x1}" y="34" font-size="12" class="mono" text-anchor="end" fill="{c["muted"]}">last 52 weeks</text>'
+        + "".join(marks) + "".join(labels)
+        + f'<line x1="{x0}" x2="{x1}" y1="{bottom + .5}" y2="{bottom + .5}" stroke="{c["border"]}"/>'
     )
-    return svg(w, h, f"{total} commits in the last 52 weeks", body)
+    css = (
+        ".b{transform-box:fill-box;transform-origin:bottom;animation:g .6s ease-out both}"
+        "@keyframes g{from{transform:scaleY(0)}to{transform:scaleY(1)}}"
+        "@media (prefers-reduced-motion:reduce){.b{animation:none}}"
+    )
+    return svg(w, h, f"{total} commits in the last 52 weeks, peak {peak} in one week", body, css)
 
 
 def terminal(c, repos):
@@ -213,7 +247,7 @@ def collect_stats():
                     weeks[index] += 1
             if len(commits) < 100:
                 break
-    return {"weeks": weeks, "repos": len(repos)}
+    return {"weeks": weeks, "first": first, "repos": len(repos)}
 
 
 def main():
@@ -225,7 +259,7 @@ def main():
         suffix = "" if theme == "light" else "-dark"
         (OUT_DIR / f"banner{suffix}.svg").write_text(banner(c))
         (OUT_DIR / f"terminal{suffix}.svg").write_text(terminal(c, stats["repos"]))
-        (OUT_DIR / f"activity{suffix}.svg").write_text(activity(c, stats["weeks"]))
+        (OUT_DIR / f"activity{suffix}.svg").write_text(activity(c, stats["weeks"], stats["first"]))
         for name, *lines in PROJECTS:
             label = DISPLAY_NAMES.get(name, name)
             (OUT_DIR / f"card-{name.lower()}{suffix}.svg").write_text(card(c, label, lines, languages[name]))
