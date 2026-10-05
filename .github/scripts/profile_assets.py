@@ -16,7 +16,7 @@ OUT_DIR = Path(sys.argv[1] if len(sys.argv) > 1 else "dist")
 
 NAME = "Adarsh"
 TITLE = "AI Engineer"
-TAGLINE = "LLMs, RAG and production ML, applied to finance."
+TAGLINE = "LLMs, RAG and production ML across finance, dev tools and speech."
 PROJECTS = [
     ("RepoMind", "Map-reduce LLM pipeline that explains", "any GitHub repository."),
     ("fin-sight", "RAG over financial filings with", "page-level citations."),
