@@ -13,6 +13,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: profile-images
+  cancel-in-progress: false
+
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -32,6 +36,22 @@ jobs:
           target_branch: output
           build_dir: dist
           jekyll: false
+          keep_history: true
+          allow_empty_commit: false
           commit_message: "Update profile images"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Point the README at this exact build (commit SHA) instead of the branch
+      # name, so no CDN or image-proxy cache can serve an older version.
+      - name: Pin README images to this build
+        run: |
+          sha=$(git ls-remote origin refs/heads/output | cut -f1)
+          [ -n "$sha" ] || { echo "output branch not found"; exit 1; }
+          sed -E -i "s#(raw\.githubusercontent\.com/${GITHUB_REPOSITORY}/)[^/]+/([a-z0-9-]+\.svg)(\?v=[0-9]+)?#\1${sha}/\2#g" README.md
+          git diff --quiet README.md && { echo "README already points at ${sha:0:7}"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Point profile images at build ${sha:0:7}" README.md
+          git pull --rebase --quiet origin main
+          git push origin HEAD:main
