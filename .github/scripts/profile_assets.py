@@ -147,10 +147,12 @@ def activity(c, weeks, first):
         labels.append(f'<text x="{x0}" y="{ay - 6:.1f}" font-size="11" class="mono" fill="{c["muted"]}">avg {avg:.1f}/wk</text>')
         i = weeks.index(peak)
         date = first + timedelta(weeks=i)
-        px = min(max(x0 + i * slot + slot / 2, x0 + 40), x1 - 40)
+        end = date + timedelta(days=6)
+        span = f"{date:%b} {date.day} – {end.day}" if end.month == date.month else f"{date:%b} {date.day} – {end:%b} {end.day}"
+        px = min(max(x0 + i * slot + slot / 2, x0 + 70), x1 - 70)
         labels.append(
             f'<text x="{px:.1f}" y="{y(peak) - 8:.1f}" font-size="11" class="mono" text-anchor="middle" '
-            f'fill="{c["fg"]}">{peak} · {date:%b} {date.day}</text>'
+            f'fill="{c["fg"]}">{peak} · {span}</text>'
         )
     last_month = first.month
     for i in range(1, len(weeks)):
