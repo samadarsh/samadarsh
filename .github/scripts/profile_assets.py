@@ -1,5 +1,5 @@
-"""Render the profile README images (banner, project cards, terminal, activity strip)
-as light and dark SVGs. Stats come from the GitHub REST API."""
+"""Render the profile README images (banner, link bar, project cards, terminal,
+activity strip) as light and dark SVGs. Stats come from the GitHub REST API."""
 
 import json
 import os
@@ -28,6 +28,8 @@ RAG_ANSWER = [
     "data ingestion, retrieval, prompting,",
     "APIs and deployment.",
 ]
+# Link bar sections, left to right: (file slug, icon, label)
+LINKS = [("portfolio", "globe", "Portfolio"), ("linkedin", "person", "LinkedIn"), ("email", "mail", "Email")]
 DISPLAY_NAMES = {"fin-sight": "Fin-Sight", "VoiceNote-AI": "VoiceNote AI"}
 LANGUAGE_COLORS = {"Python": "#3572A5", "TypeScript": "#3178C6", "JavaScript": "#F1E05A"}
 
@@ -99,6 +101,46 @@ def banner(c):
         "@media (prefers-reduced-motion:reduce){.n circle{animation:none}}"
     )
     return svg(w, h, f"{NAME}, {TITLE}. {TAGLINE}", body, css)
+
+
+def icon(kind, x, y, color):
+    """16px stroke icons for the link bar."""
+    paths = {
+        "globe": '<circle cx="8" cy="8" r="6.5"/><ellipse cx="8" cy="8" rx="2.8" ry="6.5"/><path d="M1.5 8h13"/>',
+        "person": '<circle cx="8" cy="5.5" r="2.8"/><path d="M2.5 14.5c.6-3 2.8-4.6 5.5-4.6s4.9 1.6 5.5 4.6"/>',
+        "mail": '<rect x="1.5" y="3" width="13" height="10" rx="2"/><path d="M2 4.5l6 4.5 6-4.5"/>',
+    }
+    return (
+        f'<g transform="translate({x:.1f},{y})" fill="none" stroke="{color}" stroke-width="1.6" '
+        f'stroke-linecap="round" stroke-linejoin="round">{paths[kind]}</g>'
+    )
+
+
+def link_segment(c, kind, label, position, count):
+    """One section of the link bar. Sections sit side by side in the README, so only
+    the outer ends are rounded, and every section but the last draws a divider."""
+    w, h, r, q = 284, 46, 10, 9.5
+    if position == 0:
+        edge = f"M{w},.5 H{r} A{q},{q} 0 0 0 .5,{r} V{h - r} A{q},{q} 0 0 0 {r},{h - .5} H{w}"
+        shape = edge + " Z"
+    elif position == count - 1:
+        edge = f"M0,.5 H{w - r} A{q},{q} 0 0 1 {w - .5},{r} V{h - r} A{q},{q} 0 0 1 {w - r},{h - .5} H0"
+        shape = edge + " Z"
+    else:
+        edge = f"M0,.5 H{w} M0,{h - .5} H{w}"
+        shape = f"M0,0 H{w} V{h} H0 Z"
+    divider = "" if position == count - 1 else f'<line x1="{w - .5}" x2="{w - .5}" y1="10" y2="{h - 10}" stroke="{c["border"]}"/>'
+    # The arrow rides on the label as a tspan, so its gap never depends on font
+    # metrics; only the icon uses the estimated text width.
+    text_w = len(label) * 7.6 + 18
+    cx = w / 2 + 12
+    body = (
+        f'<path d="{shape}" fill="{c["bg"]}"/><path d="{edge}" fill="none" stroke="{c["border"]}"/>{divider}'
+        + icon(kind, cx - text_w / 2 - 24, 15, c["accent"])
+        + f'<text x="{cx:.1f}" y="28" font-size="14" font-weight="600" text-anchor="middle" fill="{c["fg"]}">'
+        f'{escape(label)}<tspan dx="6" font-size="13" font-weight="400" fill="{c["muted"]}">↗</tspan></text>'
+    )
+    return svg(w, h, label, body)
 
 
 def card(c, name, lines, language):
@@ -260,6 +302,8 @@ def main():
     for theme, c in THEMES.items():
         suffix = "" if theme == "light" else "-dark"
         (OUT_DIR / f"banner{suffix}.svg").write_text(banner(c))
+        for i, (slug, kind, label) in enumerate(LINKS):
+            (OUT_DIR / f"link-{slug}{suffix}.svg").write_text(link_segment(c, kind, label, i, len(LINKS)))
         (OUT_DIR / f"terminal{suffix}.svg").write_text(terminal(c, stats["repos"]))
         (OUT_DIR / f"activity{suffix}.svg").write_text(activity(c, stats["weeks"], stats["first"]))
         for name, *lines in PROJECTS:
