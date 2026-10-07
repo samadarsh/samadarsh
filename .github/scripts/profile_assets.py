@@ -38,14 +38,25 @@ RAG_ANSWER = [
 # Link bar sections, left to right: (file slug, icon, label)
 LINKS = [("portfolio", "globe", "Portfolio"), ("linkedin", "person", "LinkedIn"), ("email", "mail", "Email")]
 DISPLAY_NAMES = {"fin-sight": "Fin-Sight", "VoiceNote-AI": "VoiceNote AI"}
+# Each tool's brand colour for its dot on the cards: (light theme, dark theme). The dark
+# values are lifted where the brand colour is too dark to see on GitHub's dark background.
+TOOL_COLORS = {
+    "FastAPI": ("#009688", "#05b8a6"), "Next.js": ("#000000", "#e6edf3"),
+    "Swiggy MCP": ("#fc8019", "#fc8019"), "Gemini": ("#4285f4", "#7aa7ff"),
+    "ChromaDB": ("#ff6446", "#ff7a5c"), "Ollama": ("#1f2328", "#e6edf3"),
+    "Streamlit": ("#ff4b4b", "#ff6b6b"), "Whisper": ("#10a37f", "#19c37d"),
+    "PyTorch": ("#ee4c2c", "#ff6a4d"), "Gradio": ("#ff7c00", "#ff9a3d"),
+    "Docker": ("#2496ed", "#4aa8ff"), "LangChain": ("#1c3c3c", "#5fb3a8"),
+    "Groq": ("#f55036", "#ff6b52"),
+}
 
 THEMES = {
     "light": {
-        "bg": "#ffffff", "hero_a": "#f6f8fa", "hero_b": "#fbf1e8", "border": "#d0d7de",
+        "dark": False, "bg": "#ffffff", "hero_a": "#f6f8fa", "hero_b": "#fbf1e8", "border": "#d0d7de",
         "fg": "#1f2328", "muted": "#59636e", "accent": "#bc4c00", "net": "#bc4c00", "net_op": ".22",
     },
     "dark": {
-        "bg": "#0d1117", "hero_a": "#1a1511", "hero_b": "#0d1117", "border": "#30363d",
+        "dark": True, "bg": "#0d1117", "hero_a": "#1a1511", "hero_b": "#0d1117", "border": "#30363d",
         "fg": "#e6edf3", "muted": "#9198a1", "accent": "#f0883e", "net": "#f0883e", "net_op": ".28",
     },
 }
@@ -158,16 +169,18 @@ def card(c, name, lines, tools):
         f'<text x="16" y="{56 + i * 19}" font-size="13" fill="{c["muted"]}">{escape(line)}</text>'
         for i, line in enumerate(lines)
     )
-    # The project's main tools as small tags along the bottom.
-    tags, x = [], 16
-    for tool in tools:
-        tw = len(tool) * 6.6 + 16
-        tags.append(
-            f'<rect x="{x:.1f}" y="87.5" width="{tw:.1f}" height="20" rx="10" fill="none" stroke="{c["border"]}"/>'
-            f'<text x="{x + tw / 2:.1f}" y="101.5" font-size="11.5" class="mono" text-anchor="middle" '
-            f'fill="{c["muted"]}">{escape(tool)}</text>'
+    # The project's main tools along the bottom, each with a dot in its brand colour,
+    # like GitHub's language dots. One line of text, so the browser spaces it with the
+    # real font's measurements instead of estimated widths.
+    spans = []
+    for i, tool in enumerate(tools):
+        color = TOOL_COLORS.get(tool, (c["muted"], c["muted"]))[1 if c["dark"] else 0]
+        gap = "" if i == 0 else ' dx="14"'
+        spans.append(
+            f'<tspan{gap} dy="1.5" font-size="16" fill="{color}">●</tspan>'
+            f'<tspan dx="4" dy="-1.5">{escape(tool)}</tspan>'
         )
-        x += tw + 6
+    tags = [f'<text x="16" y="101.5" font-size="12" fill="{c["muted"]}">{"".join(spans)}</text>']
     body = (
         f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="8" fill="{c["bg"]}" stroke="{c["border"]}"/>'
         f'<text x="16" y="30" font-size="14" font-weight="600" fill="{c["accent"]}">{escape(name)}</text>'
