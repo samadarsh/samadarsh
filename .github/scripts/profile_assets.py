@@ -17,12 +17,17 @@ OUT_DIR = Path(sys.argv[1] if len(sys.argv) > 1 else "dist")
 NAME = "Adarsh"
 TITLE = "AI Engineer"
 TAGLINE = "Building AI agents, LLM apps, RAG pipelines and production ML systems."
-# Shown two per row, AI work in the same order as the portfolio.
+# Shown two per row, AI work in the same order as the portfolio:
+# (repo, description line 1, line 2, main tools as read from each repo's code).
 PROJECTS = [
-    ("BiteWise", "AI agents for nutrition-aware Swiggy ordering", "and grocery planning, over Swiggy MCP."),
-    ("fin-sight", "RAG over financial filings with", "page-level citations."),
-    ("VoiceNote-AI", "Tamil speech-to-text with Whisper and", "a custom romanizer."),
-    ("RepoMind", "Map-reduce LLM pipeline that explains", "any GitHub repository."),
+    ("BiteWise", "AI agents for nutrition-aware Swiggy ordering", "and grocery planning, over Swiggy MCP.",
+     ["FastAPI", "Next.js", "Swiggy MCP", "Gemini"]),
+    ("fin-sight", "RAG over financial filings with", "page-level citations.",
+     ["FastAPI", "ChromaDB", "Gemini", "Ollama", "Streamlit"]),
+    ("VoiceNote-AI", "Tamil speech-to-text with Whisper and", "a custom romanizer.",
+     ["Whisper", "PyTorch", "Gradio", "Docker"]),
+    ("RepoMind", "Map-reduce LLM pipeline that explains", "any GitHub repository.",
+     ["LangChain", "Groq", "Streamlit"]),
 ]
 RAG_COMMAND = 'python rag.py "what does adarsh do?"'
 RAG_ANSWER = [
@@ -33,7 +38,6 @@ RAG_ANSWER = [
 # Link bar sections, left to right: (file slug, icon, label)
 LINKS = [("portfolio", "globe", "Portfolio"), ("linkedin", "person", "LinkedIn"), ("email", "mail", "Email")]
 DISPLAY_NAMES = {"fin-sight": "Fin-Sight", "VoiceNote-AI": "VoiceNote AI"}
-LANGUAGE_COLORS = {"Python": "#3572A5", "TypeScript": "#3178C6", "JavaScript": "#F1E05A"}
 
 THEMES = {
     "light": {
@@ -147,22 +151,29 @@ def link_segment(c, kind, label, position, count):
     return svg(w, h, label, body)
 
 
-def card(c, name, lines, language):
+def card(c, name, lines, tools):
     # 424 wide: two cards side by side fill the README's 860px column.
     w, h = 424, 120
-    color = LANGUAGE_COLORS.get(language, c["muted"])
     desc = "".join(
         f'<text x="16" y="{56 + i * 19}" font-size="13" fill="{c["muted"]}">{escape(line)}</text>'
         for i, line in enumerate(lines)
     )
+    # The project's main tools as small tags along the bottom.
+    tags, x = [], 16
+    for tool in tools:
+        tw = len(tool) * 6.6 + 16
+        tags.append(
+            f'<rect x="{x:.1f}" y="87.5" width="{tw:.1f}" height="20" rx="10" fill="none" stroke="{c["border"]}"/>'
+            f'<text x="{x + tw / 2:.1f}" y="101.5" font-size="11.5" class="mono" text-anchor="middle" '
+            f'fill="{c["muted"]}">{escape(tool)}</text>'
+        )
+        x += tw + 6
     body = (
         f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="8" fill="{c["bg"]}" stroke="{c["border"]}"/>'
         f'<text x="16" y="30" font-size="14" font-weight="600" fill="{c["accent"]}">{escape(name)}</text>'
-        f"{desc}"
-        f'<circle cx="20.5" cy="98" r="4.5" fill="{color}"/>'
-        f'<text x="31" y="102" font-size="12" fill="{c["muted"]}">{escape(language)}</text>'
+        f"{desc}{''.join(tags)}"
     )
-    return svg(w, h, f"{name}: {' '.join(lines)}", body)
+    return svg(w, h, f"{name}: {' '.join(lines)} Built with {', '.join(tools)}.", body)
 
 
 def activity(c, weeks, first):
@@ -301,7 +312,6 @@ def collect_stats():
 
 def main():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    languages = {name: (api(f"/repos/{USER}/{name}") or {}).get("language") or "Python" for name, *_ in PROJECTS}
     stats = collect_stats()
 
     for theme, c in THEMES.items():
@@ -311,9 +321,9 @@ def main():
             (OUT_DIR / f"link-{slug}{suffix}.svg").write_text(link_segment(c, kind, label, i, len(LINKS)))
         (OUT_DIR / f"terminal{suffix}.svg").write_text(terminal(c, stats["repos"]))
         (OUT_DIR / f"activity{suffix}.svg").write_text(activity(c, stats["weeks"], stats["first"]))
-        for name, *lines in PROJECTS:
+        for name, line1, line2, tools in PROJECTS:
             label = DISPLAY_NAMES.get(name, name)
-            (OUT_DIR / f"card-{name.lower()}{suffix}.svg").write_text(card(c, label, lines, languages[name]))
+            (OUT_DIR / f"card-{name.lower()}{suffix}.svg").write_text(card(c, label, [line1, line2], tools))
     print(f"{sum(stats['weeks'])} commits in the last 52 weeks; {stats}")
 
 
