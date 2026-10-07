@@ -16,15 +16,17 @@ OUT_DIR = Path(sys.argv[1] if len(sys.argv) > 1 else "dist")
 
 NAME = "Adarsh"
 TITLE = "AI Engineer"
-TAGLINE = "Building LLM apps, RAG pipelines and production ML systems."
+TAGLINE = "Building AI agents, LLM apps, RAG pipelines and production ML systems."
+# Shown two per row, AI work in the same order as the portfolio.
 PROJECTS = [
-    ("RepoMind", "Map-reduce LLM pipeline that explains", "any GitHub repository."),
+    ("BiteWise", "AI agents for nutrition-aware Swiggy ordering", "and grocery planning, over Swiggy MCP."),
     ("fin-sight", "RAG over financial filings with", "page-level citations."),
     ("VoiceNote-AI", "Tamil speech-to-text with Whisper and", "a custom romanizer."),
+    ("RepoMind", "Map-reduce LLM pipeline that explains", "any GitHub repository."),
 ]
 RAG_COMMAND = 'python rag.py "what does adarsh do?"'
 RAG_ANSWER = [
-    "Builds LLM applications end to end:",
+    "Builds LLM apps and AI agents end to end:",
     "data ingestion, retrieval, prompting,",
     "APIs and deployment.",
 ]
@@ -56,7 +58,9 @@ def api(path):
         with urllib.request.urlopen(req, timeout=30) as resp:
             return json.load(resp)
     except urllib.error.HTTPError as err:
-        if err.code == 409:  # empty repository
+        # 409: empty repository. 404: a repo renamed or made private; skip it rather than
+        # failing the whole daily render.
+        if err.code in (404, 409):
             return []
         raise
 
@@ -144,7 +148,8 @@ def link_segment(c, kind, label, position, count):
 
 
 def card(c, name, lines, language):
-    w, h = 280, 120
+    # 424 wide: two cards side by side fill the README's 860px column.
+    w, h = 424, 120
     color = LANGUAGE_COLORS.get(language, c["muted"])
     desc = "".join(
         f'<text x="16" y="{56 + i * 19}" font-size="13" fill="{c["muted"]}">{escape(line)}</text>'
