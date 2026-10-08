@@ -1,5 +1,5 @@
-"""Render the profile README images (banner, link bar, project cards, terminal,
-activity strip) as light and dark SVGs. Stats come from the GitHub REST API."""
+"""Render the profile README images (banner, link bar, terminal, activity strip)
+as light and dark SVGs. Stats come from the GitHub REST API."""
 
 import json
 import os
@@ -17,18 +17,6 @@ OUT_DIR = Path(sys.argv[1] if len(sys.argv) > 1 else "dist")
 NAME = "Adarsh"
 TITLE = "AI Engineer"
 TAGLINE = "Building AI agents, LLM apps, RAG pipelines and production ML systems."
-# Shown two per row, AI work in the same order as the portfolio:
-# (repo, description line 1, line 2, main tools as read from each repo's code).
-PROJECTS = [
-    ("BiteWise", "AI agents for nutrition-aware Swiggy ordering", "and grocery planning, over Swiggy MCP.",
-     ["FastAPI", "Next.js", "Swiggy MCP", "Gemini"]),
-    ("fin-sight", "RAG over financial filings with", "page-level citations.",
-     ["FastAPI", "ChromaDB", "Gemini", "Ollama", "Streamlit"]),
-    ("VoiceNote-AI", "Tamil speech-to-text with Whisper and", "a custom romanizer.",
-     ["Whisper", "PyTorch", "Gradio", "Docker"]),
-    ("RepoMind", "Map-reduce LLM pipeline that explains", "any GitHub repository.",
-     ["LangChain", "Groq", "Streamlit"]),
-]
 RAG_COMMAND = 'python rag.py "what does adarsh do?"'
 RAG_ANSWER = [
     "Builds LLM apps and AI agents end to end:",
@@ -37,26 +25,14 @@ RAG_ANSWER = [
 ]
 # Link bar sections, left to right: (file slug, icon, label)
 LINKS = [("portfolio", "globe", "Portfolio"), ("linkedin", "person", "LinkedIn"), ("email", "mail", "Email")]
-DISPLAY_NAMES = {"fin-sight": "Fin-Sight", "VoiceNote-AI": "VoiceNote AI"}
-# Each tool's brand colour for its dot on the cards: (light theme, dark theme). The dark
-# values are lifted where the brand colour is too dark to see on GitHub's dark background.
-TOOL_COLORS = {
-    "FastAPI": ("#009688", "#05b8a6"), "Next.js": ("#000000", "#e6edf3"),
-    "Swiggy MCP": ("#fc8019", "#fc8019"), "Gemini": ("#4285f4", "#7aa7ff"),
-    "ChromaDB": ("#ff6446", "#ff7a5c"), "Ollama": ("#1f2328", "#e6edf3"),
-    "Streamlit": ("#ff4b4b", "#ff6b6b"), "Whisper": ("#10a37f", "#19c37d"),
-    "PyTorch": ("#ee4c2c", "#ff6a4d"), "Gradio": ("#ff7c00", "#ff9a3d"),
-    "Docker": ("#2496ed", "#4aa8ff"), "LangChain": ("#1c3c3c", "#5fb3a8"),
-    "Groq": ("#f55036", "#ff6b52"),
-}
 
 THEMES = {
     "light": {
-        "dark": False, "bg": "#ffffff", "hero_a": "#f6f8fa", "hero_b": "#fbf1e8", "border": "#d0d7de",
+        "bg": "#ffffff", "hero_a": "#f6f8fa", "hero_b": "#fbf1e8", "border": "#d0d7de",
         "fg": "#1f2328", "muted": "#59636e", "accent": "#bc4c00", "net": "#bc4c00", "net_op": ".22",
     },
     "dark": {
-        "dark": True, "bg": "#0d1117", "hero_a": "#1a1511", "hero_b": "#0d1117", "border": "#30363d",
+        "bg": "#0d1117", "hero_a": "#1a1511", "hero_b": "#0d1117", "border": "#30363d",
         "fg": "#e6edf3", "muted": "#9198a1", "accent": "#f0883e", "net": "#f0883e", "net_op": ".28",
     },
 }
@@ -160,33 +136,6 @@ def link_segment(c, kind, label, position, count):
         f'{escape(label)}<tspan dx="6" font-size="13" font-weight="400" fill="{c["muted"]}">↗</tspan></text>'
     )
     return svg(w, h, label, body)
-
-
-def card(c, name, lines, tools):
-    # 424 wide: two cards side by side fill the README's 860px column.
-    w, h = 424, 120
-    desc = "".join(
-        f'<text x="16" y="{56 + i * 19}" font-size="13" fill="{c["muted"]}">{escape(line)}</text>'
-        for i, line in enumerate(lines)
-    )
-    # The project's main tools along the bottom, each with a dot in its brand colour,
-    # like GitHub's language dots. One line of text, so the browser spaces it with the
-    # real font's measurements instead of estimated widths.
-    spans = []
-    for i, tool in enumerate(tools):
-        color = TOOL_COLORS.get(tool, (c["muted"], c["muted"]))[1 if c["dark"] else 0]
-        gap = "" if i == 0 else ' dx="14"'
-        spans.append(
-            f'<tspan{gap} dy="1.5" font-size="16" fill="{color}">●</tspan>'
-            f'<tspan dx="4" dy="-1.5">{escape(tool)}</tspan>'
-        )
-    tags = [f'<text x="16" y="101.5" font-size="12" fill="{c["muted"]}">{"".join(spans)}</text>']
-    body = (
-        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="8" fill="{c["bg"]}" stroke="{c["border"]}"/>'
-        f'<text x="16" y="30" font-size="14" font-weight="600" fill="{c["accent"]}">{escape(name)}</text>'
-        f"{desc}{''.join(tags)}"
-    )
-    return svg(w, h, f"{name}: {' '.join(lines)} Built with {', '.join(tools)}.", body)
 
 
 def activity(c, weeks, first):
@@ -334,9 +283,6 @@ def main():
             (OUT_DIR / f"link-{slug}{suffix}.svg").write_text(link_segment(c, kind, label, i, len(LINKS)))
         (OUT_DIR / f"terminal{suffix}.svg").write_text(terminal(c, stats["repos"]))
         (OUT_DIR / f"activity{suffix}.svg").write_text(activity(c, stats["weeks"], stats["first"]))
-        for name, line1, line2, tools in PROJECTS:
-            label = DISPLAY_NAMES.get(name, name)
-            (OUT_DIR / f"card-{name.lower()}{suffix}.svg").write_text(card(c, label, [line1, line2], tools))
     print(f"{sum(stats['weeks'])} commits in the last 52 weeks; {stats}")
 
 
