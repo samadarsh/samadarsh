@@ -23,6 +23,8 @@ RAG_ANSWER = [
     "data ingestion, retrieval, prompting,",
     "APIs and deployment.",
 ]
+STACK_COMMAND = "cat stack.txt"
+STACK = ["Python", "PyTorch", "LangChain", "FastAPI", "Docker"]
 # Link bar sections, left to right: (file slug, icon, label)
 LINKS = [("portfolio", "globe", "Portfolio"), ("linkedin", "person", "LinkedIn"), ("email", "mail", "Email")]
 
@@ -199,7 +201,8 @@ def activity(c, weeks, first):
 def terminal(c, repos):
     """A mini RAG session about the profile; the answer streams in word by word."""
     w = 860
-    prompt_y = 146 + len(RAG_ANSWER) * 22 + 10
+    stack_y = 146 + len(RAG_ANSWER) * 22 + 10
+    prompt_y = stack_y + 54
     h = prompt_y + 22
     words = [line.split() for line in RAG_ANSWER]
     start, per_word = 1.6, 0.07
@@ -228,14 +231,20 @@ def terminal(c, repos):
         for i, color in enumerate(("#ff5f57", "#febc2e", "#28c840"))
     )
     end = start + n * per_word
+    stack_rows = (
+        f'<g class="l" style="animation-delay:{end + 0.4:.2f}s">'
+        f'<text x="24" y="{stack_y}" font-size="14" class="mono"><tspan fill="{c["accent"]}">~ $ </tspan>'
+        f'<tspan fill="{c["fg"]}">{escape(STACK_COMMAND)}</tspan></text>'
+        f'<text x="24" y="{stack_y + 22}" font-size="14" class="mono" fill="{c["muted"]}">{escape(" · ".join(STACK))}</text></g>'
+    )
     body = (
         f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="10" fill="{c["bg"]}" stroke="{c["border"]}"/>'
         f'<line x1="0" x2="{w}" y1="34" y2="34" stroke="{c["border"]}"/>{dots}'
         f'<text x="{w / 2}" y="22" font-size="12" class="mono" text-anchor="middle" fill="{c["muted"]}">{USER.lower()} — zsh</text>'
         f'<text x="24" y="66" font-size="14" class="mono"><tspan fill="{c["accent"]}">~ $ </tspan>'
         f'<tspan fill="{c["fg"]}">{escape(RAG_COMMAND)}</tspan></text>'
-        f"{step_rows}{''.join(answer)}"
-        f'<text x="24" y="{prompt_y}" font-size="14" class="mono l" style="animation-delay:{end + 0.3:.2f}s" fill="{c["accent"]}">'
+        f"{step_rows}{''.join(answer)}{stack_rows}"
+        f'<text x="24" y="{prompt_y}" font-size="14" class="mono l" style="animation-delay:{end + 0.9:.2f}s" fill="{c["accent"]}">'
         f'~ $ <tspan class="cur">█</tspan></text>'
     )
     css = (
@@ -244,7 +253,8 @@ def terminal(c, repos):
         ".cur{animation:blink 1.1s steps(1) infinite}@keyframes blink{50%{opacity:0}}"
         "@media (prefers-reduced-motion:reduce){.l,.t,.cur{animation:none}}"
     )
-    label = f"$ {RAG_COMMAND} — retrieved from {repos} repos; answer: {' '.join(RAG_ANSWER)}"
+    label = (f"$ {RAG_COMMAND} — retrieved from {repos} repos; answer: {' '.join(RAG_ANSWER)} "
+             f"$ {STACK_COMMAND}: {', '.join(STACK)}")
     return svg(w, h, label, body, css)
 
 
