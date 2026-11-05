@@ -27,7 +27,6 @@ FONT_DIR = Path(__file__).resolve().parent.parent / "assets" / "fonts"
 
 NAME = "Adarsh"
 SUBTITLE = "AI Engineer, building agents from Chennai"
-ROLE = "AI Engineer"
 CITY = "Chennai"
 LAT, LON = 13.0827, 80.2707
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -294,12 +293,13 @@ def daily_print(c, weeks, now):
         f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="10" fill="{c["paper"]}" stroke="{c["border"]}"/>'
         + "".join(paths)
         + f'<text x="{w / 2}" y="486" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="24" '
-          f'fill="{c["ink"]}">{escape(NAME)}, a year in commits, No. {doy}</text>'
+          f'fill="{c["ink"]}">A year in commits, No. {doy}</text>'
         + f'<text class="mono" x="{w / 2}" y="514" text-anchor="middle" font-size="11" letter-spacing=".5" fill="{c["muted"]}">'
-          f'{escape(ROLE.upper())} · {escape(CITY.upper())} · {total} COMMITS OVER 52 WEEKS · DRAWN {date}</text>'
+          f'{total} COMMITS · BUSIEST WEEK {max(weeks)} · DRAWN {date}</text>'
     )
     css = SERIF_FONTS + ".rg{animation:rg .9s ease-out both}@keyframes rg{from{opacity:0}to{opacity:var(--o)}}" + REDUCED
-    label = f"{NAME}, a year in commits, No. {doy}: a print of concentric rings shaped by {total} commits over the last 52 weeks."
+    label = (f"A year in commits, No. {doy}: a print of concentric rings shaped by {total} commits over the last 52 weeks, "
+             f"{max(weeks)} in the busiest week.")
     return svg(w, h, label, body, css)
 
 
