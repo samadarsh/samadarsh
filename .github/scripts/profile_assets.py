@@ -3,7 +3,9 @@ as light and dark SVGs. Stats come from the GitHub REST API."""
 
 import json
 import os
+import re
 import sys
+import textwrap
 import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -25,6 +27,16 @@ RAG_ANSWER = [
 ]
 STACK_COMMAND = "cat stack.txt"
 STACK = ["Python", "PyTorch", "LangChain", "FastAPI", "Docker"]
+# Ask-first profile. Suggested questions open prefilled "ask:" issues (see ask_agent.py).
+ASK_HEADLINE = ("Don't read about my work.", "Ask it.")
+ASK_PLACEHOLDER = "Ask anything about my work or projects"
+ASK_SUGGESTIONS = [
+    ("fin-sight", "How does Fin-Sight cite its sources?"),
+    ("bitewise", "What is BiteWise built on?"),
+    ("stack", "What stack does Adarsh use for agents?"),
+]
+MINI_LINKS = [("portfolio", "portfolio"), ("linkedin", "linkedin"), ("repos", "all repos")]
+ANSWER_MARK, ANSWER_END = "<!-- ask-answer -->", "<!-- ask-answer-end -->"
 # Link bar sections, left to right: (file slug, icon, label)
 LINKS = [("portfolio", "globe", "Portfolio"), ("linkedin", "person", "LinkedIn"), ("email", "mail", "Email")]
 
@@ -32,10 +44,12 @@ THEMES = {
     "light": {
         "bg": "#ffffff", "hero_a": "#f6f8fa", "hero_b": "#fbf1e8", "border": "#d0d7de",
         "fg": "#1f2328", "muted": "#59636e", "accent": "#bc4c00", "net": "#bc4c00", "net_op": ".22",
+        "surface": "#f6f8fa", "glow_op": ".22", "glow_op2": ".14",
     },
     "dark": {
         "bg": "#0d1117", "hero_a": "#1a1511", "hero_b": "#0d1117", "border": "#30363d",
         "fg": "#e6edf3", "muted": "#9198a1", "accent": "#f0883e", "net": "#f0883e", "net_op": ".28",
+        "surface": "#151b23", "glow_op": ".36", "glow_op2": ".24",
     },
 }
 SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif"
@@ -98,6 +112,99 @@ def banner(c):
         "@media (prefers-reduced-motion:reduce){.n circle{animation:none}}"
     )
     return svg(w, h, f"{NAME}, {TITLE}. {TAGLINE}", body, css)
+
+
+def ask_hero(c):
+    """Name line, headline and a question box over a slowly drifting glow."""
+    w, h = 860, 300
+    box_w, box_x, box_y = 620, (860 - 620) / 2, 196
+    glow = c["accent"]
+    body = (
+        '<defs><filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="46"/></filter>'
+        f'<clipPath id="clip"><rect width="{w}" height="{h}" rx="14"/></clipPath></defs>'
+        f'<g clip-path="url(#clip)"><rect width="{w}" height="{h}" fill="{c["bg"]}"/>'
+        f'<ellipse class="g1" cx="300" cy="120" rx="230" ry="110" fill="{glow}" opacity="{c["glow_op"]}" filter="url(#blur)"/>'
+        f'<ellipse class="g2" cx="600" cy="190" rx="200" ry="90" fill="{glow}" opacity="{c["glow_op2"]}" filter="url(#blur)"/></g>'
+        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="14" fill="none" stroke="{c["border"]}"/>'
+        f'<text x="{w / 2}" y="58" font-size="15" text-anchor="middle" fill="{c["muted"]}">'
+        f'<tspan font-weight="600" fill="{c["fg"]}">{escape(NAME)}</tspan> · {escape(TITLE)}</text>'
+        f'<text x="{w / 2}" y="112" font-size="38" font-weight="700" letter-spacing="-.6" text-anchor="middle" fill="{c["fg"]}">'
+        f'{escape(ASK_HEADLINE[0])}</text>'
+        f'<text x="{w / 2}" y="158" font-size="38" font-weight="700" letter-spacing="-.6" text-anchor="middle" fill="{c["accent"]}">'
+        f'{escape(ASK_HEADLINE[1])}</text>'
+        f'<rect x="{box_x - 4}" y="{box_y - 4}" width="{box_w + 8}" height="60" rx="15" fill="{c["accent"]}" fill-opacity=".12"/>'
+        f'<rect x="{box_x}" y="{box_y}" width="{box_w}" height="52" rx="12" fill="{c["bg"]}" stroke="{c["accent"]}"/>'
+        f'<text x="{box_x + 18}" y="{box_y + 32}" font-size="15" class="mono" fill="{c["muted"]}">{escape(ASK_PLACEHOLDER)}'
+        f'<tspan class="cur" fill="{c["accent"]}"> ▍</tspan></text>'
+        f'<rect x="{box_x + box_w - 74}" y="{box_y + 12}" width="60" height="28" rx="8" fill="{c["accent"]}"/>'
+        f'<text x="{box_x + box_w - 44}" y="{box_y + 31}" font-size="12" font-weight="600" text-anchor="middle" fill="{c["bg"]}">Ask ↗</text>'
+    )
+    css = (
+        ".g1{animation:d1 16s ease-in-out infinite alternate}.g2{animation:d2 19s ease-in-out infinite alternate}"
+        "@keyframes d1{to{transform:translate(110px,30px)}}@keyframes d2{to{transform:translate(-120px,-30px)}}"
+        ".cur{animation:blink 1.1s steps(1) infinite}@keyframes blink{50%{opacity:0}}"
+        "@media (prefers-reduced-motion:reduce){.g1,.g2,.cur{animation:none}}"
+    )
+    return svg(w, h, f"{NAME}, {TITLE}. {ASK_HEADLINE[0]} {ASK_HEADLINE[1]} Ask a question about my work.", body, css)
+
+
+def ask_chip(c, text):
+    w, h = round(len(text) * 6.8 + 46), 34
+    body = (
+        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="{h / 2}" fill="{c["bg"]}" stroke="{c["border"]}"/>'
+        f'<text x="16" y="22" font-size="13" fill="{c["fg"]}">{escape(text)}'
+        f'<tspan dx="6" fill="{c["muted"]}">↗</tspan></text>'
+    )
+    return svg(w, h, f"Ask: {text}", body)
+
+
+def answer_card(c, answer):
+    """The latest answer you approved, or an invitation when there is none yet."""
+    w = 640
+    if answer:
+        question = answer["question"] if len(answer["question"]) <= 80 else answer["question"][:77].rsplit(" ", 1)[0] + "…"
+        lines = textwrap.wrap(answer["answer"], 78)[:3]
+        if len(textwrap.wrap(answer["answer"], 78)) > 3:
+            lines[-1] = lines[-1].rstrip(".,;") + "…"
+        label = "LATEST ANSWER"
+    else:
+        question, lines, label = "No questions answered yet.", ["Ask the first one: my agent replies with sources in about a minute."], "ASK ME"
+    h = 74 + len(lines) * 19
+    rows = "".join(
+        f'<text x="16" y="{68 + i * 19}" font-size="13" fill="{c["muted"]}">{escape(line)}</text>' for i, line in enumerate(lines)
+    )
+    body = (
+        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="10" fill="{c["surface"]}" stroke="{c["border"]}"/>'
+        f'<text x="16" y="24" font-size="11" class="mono" letter-spacing="1" fill="{c["muted"]}">{label}</text>'
+        f'<text x="16" y="46" font-size="14" font-weight="600" fill="{c["fg"]}">{escape(question)}</text>{rows}'
+    )
+    alt = f"Latest answer. Q: {question} A: {' '.join(lines)}" if answer else "No questions answered yet."
+    return svg(w, h, alt, body)
+
+
+def mini_link(c, label):
+    w, h = round(len(label) * 7.0 + 30), 28
+    body = (f'<text x="6" y="19" font-size="13"><tspan fill="{c["accent"]}">→ </tspan>'
+            f'<tspan fill="{c["muted"]}">{escape(label)}</tspan></text>')
+    return svg(w, h, label, body)
+
+
+def latest_answer():
+    """Question and answer text of the most recently approved "ask:" issue."""
+    try:
+        issues = api(f"/repos/{USER}/{USER}/issues?labels=approved&state=all&sort=updated&direction=desc&per_page=5") or []
+    except Exception as err:  # never fail the whole build over the answer card
+        print(f"warning: could not read approved answers: {err}")
+        return None
+    for issue in issues:
+        for note in api(f"/repos/{USER}/{USER}/issues/{issue['number']}/comments?per_page=50") or []:
+            body = note.get("body") or ""
+            if note["user"].get("type") == "Bot" and ANSWER_MARK in body and ANSWER_END in body:
+                text = body.split(ANSWER_MARK, 1)[1].split(ANSWER_END, 1)[0]
+                text = re.sub(r"\s+", " ", re.sub(r"https?://\S+", "", text)).strip()
+                question = re.sub(r"^\s*ask\s*:\s*", "", issue["title"], flags=re.I).strip()
+                return {"question": question, "answer": text, "number": issue["number"]}
+    return None
 
 
 def icon(kind, x, y, color):
@@ -285,15 +392,22 @@ def collect_stats():
 def main():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     stats = collect_stats()
+    answer = latest_answer()
 
     for theme, c in THEMES.items():
         suffix = "" if theme == "light" else "-dark"
         (OUT_DIR / f"banner{suffix}.svg").write_text(banner(c))
+        (OUT_DIR / f"ask-hero{suffix}.svg").write_text(ask_hero(c))
+        for slug, text in ASK_SUGGESTIONS:
+            (OUT_DIR / f"ask-chip-{slug}{suffix}.svg").write_text(ask_chip(c, text))
+        (OUT_DIR / f"ask-answer{suffix}.svg").write_text(answer_card(c, answer))
+        for slug, label in MINI_LINKS:
+            (OUT_DIR / f"mini-{slug}{suffix}.svg").write_text(mini_link(c, label))
         for i, (slug, kind, label) in enumerate(LINKS):
             (OUT_DIR / f"link-{slug}{suffix}.svg").write_text(link_segment(c, kind, label, i, len(LINKS)))
         (OUT_DIR / f"terminal{suffix}.svg").write_text(terminal(c, stats["repos"]))
         (OUT_DIR / f"activity{suffix}.svg").write_text(activity(c, stats["weeks"], stats["first"]))
-    print(f"{sum(stats['weeks'])} commits in the last 52 weeks; {stats}")
+    print(f"{sum(stats['weeks'])} commits in the last 52 weeks; latest answer: {answer and answer['number']}")
 
 
 if __name__ == "__main__":

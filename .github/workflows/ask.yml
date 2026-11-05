@@ -1,0 +1,28 @@
+name: Ask Adarsh
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+  models: read
+
+concurrency:
+  group: ask-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  answer:
+    # startsWith is case-insensitive, so "ask:" and "Ask:" both count.
+    if: startsWith(github.event.issue.title, 'ask:')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Answer the question
+        run: python3 .github/scripts/ask_agent.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
