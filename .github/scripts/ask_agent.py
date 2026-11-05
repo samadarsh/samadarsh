@@ -11,6 +11,7 @@ import math
 import os
 import re
 import sys
+import traceback
 import urllib.error
 import urllib.request
 from collections import Counter
@@ -67,11 +68,17 @@ def gh(method, path, body=None, raw=False):
         req.add_header("Authorization", f"Bearer {TOKEN}")
     if data is not None:
         req.add_header("Content-Type", "application/json")
-    with urllib.request.urlopen(req, timeout=30) as resp:
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        status, ctype = resp.status, resp.headers.get("Content-Type", "")
         text = resp.read().decode("utf-8", "replace")
     if raw:
         return text
-    return json.loads(text) if text else None
+    if not text.strip():
+        return None
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        raise RuntimeError(f"{method} {url.split('?')[0]} returned {status} {ctype!r}, not JSON: {text[:300]!r}")
 
 
 def comment(number, body):
@@ -207,7 +214,10 @@ def ask_model(passages, question):
             text = reply["choices"][0]["message"]["content"]
             break
         except urllib.error.HTTPError as err:
-            last_error = f"{model}: HTTP {err.code} {err.read()[:200]!r}"
+            last_error = f"{model}: HTTP {err.code} {err.read()[:300]!r}"
+            print(last_error, file=sys.stderr)
+        except Exception as err:  # unexpected response shape; try the next model
+            last_error = f"{model}: {err}"
             print(last_error, file=sys.stderr)
     else:
         raise RuntimeError(last_error or "no model configured")
@@ -251,7 +261,13 @@ def reply_body(answer, passages, used, answerable):
 
 def main():
     event = json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
-    issue = event["issue"]
+    if os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
+        # Manual re-run for a question that failed earlier (labelled "pending").
+        issue = gh("GET", f"/repos/{REPO}/issues/{int(event['inputs']['issue'])}")
+        if any(label["name"] == "pending" for label in issue.get("labels", [])):
+            gh("DELETE", f"/repos/{REPO}/issues/{issue['number']}/labels/pending")
+    else:
+        issue = event["issue"]
     number, login = issue["number"], issue["user"]["login"]
     if issue["user"].get("type") == "Bot":
         return
@@ -272,8 +288,8 @@ def main():
     try:
         passages = retrieve(build_corpus(), question)
         result = ask_model(passages, question)
-    except Exception as err:  # model quota, network, or API errors
-        print(f"error: {err}", file=sys.stderr)
+    except Exception:  # model quota, network, or API errors
+        traceback.print_exc()
         comment(number, "The agent couldn't answer right now, most likely because its free daily quota ran out. "
                         "Adarsh has been notified by this issue and will reply.")
         gh("POST", f"/repos/{REPO}/issues/{number}/labels", {"labels": ["ask", "pending"]})

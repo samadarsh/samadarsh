@@ -3,6 +3,12 @@ name: Ask Adarsh
 on:
   issues:
     types: [opened]
+  # Re-answer a question that failed, e.g. when the free model quota ran out.
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Issue number to answer
+        required: true
 
 permissions:
   contents: read
@@ -10,13 +16,13 @@ permissions:
   models: read
 
 concurrency:
-  group: ask-${{ github.event.issue.number }}
+  group: ask-${{ github.event.issue.number || inputs.issue }}
   cancel-in-progress: false
 
 jobs:
   answer:
     # startsWith is case-insensitive, so "ask:" and "Ask:" both count.
-    if: startsWith(github.event.issue.title, 'ask:')
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.issue.title, 'ask:')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
