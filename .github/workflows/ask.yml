@@ -32,3 +32,6 @@ jobs:
         run: python3 .github/scripts/ask_agent.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional fallbacks: add either as a repository secret to use your own key.
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
