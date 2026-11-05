@@ -7,9 +7,3 @@
 </p>
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/03bb4cd504aae88b9b5dd9062991fd891cf12940/print-dark.svg" /><img alt="Adarsh, a year in commits: today's print of concentric rings shaped by the last 52 weeks of commits." src="https://raw.githubusercontent.com/samadarsh/samadarsh/03bb4cd504aae88b9b5dd9062991fd891cf12940/print.svg" /></picture>
-
-<p align="center">
-  <a href="https://samadarsh.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/03bb4cd504aae88b9b5dd9062991fd891cf12940/link-portfolio-dark.svg" /><img alt="Portfolio" src="https://raw.githubusercontent.com/samadarsh/samadarsh/03bb4cd504aae88b9b5dd9062991fd891cf12940/link-portfolio.svg" /></picture></a>&nbsp;&nbsp;
-  <a href="https://linkedin.com/in/samadarsh14"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/03bb4cd504aae88b9b5dd9062991fd891cf12940/link-linkedin-dark.svg" /><img alt="LinkedIn" src="https://raw.githubusercontent.com/samadarsh/samadarsh/03bb4cd504aae88b9b5dd9062991fd891cf12940/link-linkedin.svg" /></picture></a>&nbsp;&nbsp;
-  <a href="mailto:samadarsh14@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/samadarsh/samadarsh/03bb4cd504aae88b9b5dd9062991fd891cf12940/link-email-dark.svg" /><img alt="Email" src="https://raw.githubusercontent.com/samadarsh/samadarsh/03bb4cd504aae88b9b5dd9062991fd891cf12940/link-email.svg" /></picture></a>
-</p>
