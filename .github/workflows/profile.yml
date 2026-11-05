@@ -1,21 +1,19 @@
 name: Generate profile images
 
 on:
+  # Hourly: the sky follows the time of day in Chennai; the print changes daily.
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
   push:
     branches: [main]
     paths:
       - ".github/scripts/profile_assets.py"
       - ".github/workflows/profile.yml"
-  # Rebuild the answer card when the owner approves an "ask:" answer.
-  issues:
-    types: [labeled]
+      - ".github/assets/**"
 
 permissions:
   contents: write
-  issues: read
 
 concurrency:
   group: profile-images
@@ -23,9 +21,6 @@ concurrency:
 
 jobs:
   generate:
-    if: >-
-      github.event_name != 'issues' ||
-      (github.event.label.name == 'approved' && github.event.sender.login == github.repository_owner)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
