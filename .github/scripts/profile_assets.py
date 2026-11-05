@@ -31,6 +31,8 @@ ROLE = "AI Engineer"
 CITY = "Chennai"
 LAT, LON = 13.0827, 80.2707
 IST = timezone(timedelta(hours=5, minutes=30))
+# The name and subtitle block in the sky image: the sun and moon stay out of it.
+TEXT_RIGHT, TEXT_BOTTOM = 400, 130
 LINKS = [("portfolio", "portfolio"), ("linkedin", "linkedin"), ("email", "email")]
 
 THEMES = {
@@ -151,13 +153,21 @@ def sky(now):
     night = hr < rise - 0.3 or hr > set_ + 0.5
     day = (hr - rise) / (set_ - rise)
     is_sun = -0.05 <= day <= 1.05
-    if is_sun:
-        p = min(1, max(0, day))
-        bx, by = w * (0.88 - 0.76 * day), hz - math.sin(math.pi * p) * hz * 0.78 + h * 0.02
-    else:
-        nd = ((hr - set_ + 24) % 24) / (24 - (set_ - rise))
-        bx, by = w * (0.88 - 0.76 * nd), hz - math.sin(math.pi * nd) * hz * 0.7 + h * 0.02
     rad = h * 0.07
+
+    def place(p, peak):
+        """Position along the arc for progress p (0 = east horizon, 1 = west). Over the name
+        and subtitle on the left, the arc stays below the text so it never covers it."""
+        x = w * (0.88 - 0.76 * p)
+        elev = math.sin(math.pi * min(1, max(0, p))) * hz * peak
+        clear = hz - (TEXT_BOTTOM + rad + 10)
+        cap = clear + max(0.0, min(1.0, (x - TEXT_RIGHT) / 90)) * (hz - clear)
+        return x, hz - min(elev, cap) + h * 0.02
+
+    if is_sun:
+        bx, by = place(day, 0.78)
+    else:
+        bx, by = place(((hr - set_ + 24) % 24) / (24 - (set_ - rise)), 0.7)
     light = not night and 0.08 < day < 0.92
     text = "#102030" if light else "#f7f2e8"
 
