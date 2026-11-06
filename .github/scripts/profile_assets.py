@@ -26,7 +26,7 @@ OUT_DIR = Path(sys.argv[1] if len(sys.argv) > 1 else "dist")
 FONT_DIR = Path(__file__).resolve().parent.parent / "assets" / "fonts"
 
 NAME = "Adarsh"
-SUBTITLE = "AI Engineer, building agents from Chennai"
+SUBTITLE = "AI Engineer, from research to production"
 CITY = "Chennai"
 LAT, LON = 13.0827, 80.2707
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -311,6 +311,35 @@ def daily_print(c, weeks, now):
     return svg(w, h, label, body, css)
 
 
+# Horizon-rule links: one row of three images (42% + 14% + 42% of the README width), so they
+# scale together and never wrap. Label widths are measured from the embedded italic font at 21px.
+HZ_SIDE, HZ_MID, HZ_H, HZ_GAP = 361, 120, 40, 16
+HZ_WIDTH = {"Portfolio": 66.2, "LinkedIn": 68.5, "Email": 46.2}
+HZ_LINKS = [("portfolio", "Portfolio", "left"), ("linkedin", "LinkedIn", "mid"), ("email", "Email", "right")]
+SERIF_ITALIC = font_face("Instrument Serif", "InstrumentSerif-Italic.woff", "italic")
+
+
+def horizon_link(c, label, part):
+    """A serif link on a hairline horizon. The left and right pieces carry the line, which fades
+    out toward the outer edge; the middle piece is just the label."""
+    y = 26
+    text = f'font-family="{SERIF}" font-style="italic" font-size="21" fill="{c["ink"]}"'
+    if part == "mid":
+        w = HZ_MID
+        body = f'<text x="{w / 2}" y="{y}" text-anchor="middle" {text}>{escape(label)}</text>'
+    else:
+        w = HZ_SIDE
+        if part == "left":
+            x0, x1, tx, anchor, fade = 0, w - 8 - HZ_WIDTH[label] - HZ_GAP, w - 8, "end", ("0", "1")
+        else:
+            x0, x1, tx, anchor, fade = 8 + HZ_WIDTH[label] + HZ_GAP, w, 8, "start", ("1", "0")
+        body = (f'<defs><linearGradient id="f" x1="0" x2="1"><stop offset="0" stop-color="{c["border"]}" stop-opacity="{fade[0]}"/>'
+                f'<stop offset="1" stop-color="{c["border"]}" stop-opacity="{fade[1]}"/></linearGradient></defs>'
+                f'<rect x="{x0:.1f}" y="{y - 6.5}" width="{x1 - x0:.1f}" height="1" fill="url(#f)"/>'
+                f'<text x="{tx:.1f}" y="{y}" text-anchor="{anchor}" {text}>{escape(label)}</text>')
+    return svg(w, HZ_H, label, body, SERIF_ITALIC)
+
+
 def text_link(c, label):
     width = round(len(label) * 7.8 + 4)
     body = (f'<text class="mono" x="2" y="15" font-size="13" fill="{c["ink"]}">{escape(label)}</text>'
@@ -352,6 +381,8 @@ def main():
         (OUT_DIR / f"print{suffix}.svg").write_text(daily_print(c, weeks, now))
         for slug, label in LINKS:
             (OUT_DIR / f"link-{slug}{suffix}.svg").write_text(text_link(c, label))
+        for slug, label, part in HZ_LINKS:
+            (OUT_DIR / f"hz-{slug}{suffix}.svg").write_text(horizon_link(c, label, part))
     print(f"{sum(weeks)} commits in the last 52 weeks; sky drawn at {now:%H:%M} IST")
 
 
