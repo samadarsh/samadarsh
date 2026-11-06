@@ -4,7 +4,7 @@
   Sunrise and sunset are calculated for Chennai's coordinates, so no weather API is needed.
 - print.svg / print-dark.svg: a daily generative print of concentric rings shaped by the
   user's weekly commits over the last 52 weeks, numbered by the day of the year.
-- link-*.svg: small text links in the same style, light and dark.
+- hz-*.svg: the Portfolio, LinkedIn and Email links on a hairline horizon, light and dark.
 
 Stats come from the GitHub REST API. Only the Python standard library is used.
 """
@@ -33,7 +33,6 @@ IST = timezone(timedelta(hours=5, minutes=30))
 # The name and subtitle block in the sky image: the sun and moon stay out of it.
 TEXT_RIGHT, TEXT_BOTTOM = 400, 130
 PRINT_LINE = "Still growing."
-LINKS = [("portfolio", "portfolio"), ("linkedin", "linkedin"), ("email", "email")]
 
 THEMES = {
     "light": {"paper": "#faf8f3", "border": "#d0d7de", "ink": "#1f2328", "muted": "#59636e", "accent": "#bc4c00"},
@@ -340,13 +339,6 @@ def horizon_link(c, label, part):
     return svg(w, HZ_H, label, body, SERIF_ITALIC)
 
 
-def text_link(c, label):
-    width = round(len(label) * 7.8 + 4)
-    body = (f'<text class="mono" x="2" y="15" font-size="13" fill="{c["ink"]}">{escape(label)}</text>'
-            f'<rect x="2" y="20" width="{width - 4}" height="1" fill="{c["accent"]}"/>')
-    return svg(width, 24, label, body)
-
-
 def collect_stats():
     """The user's own commits per week on each default branch over the last 52 weeks
     (weeks start Sunday, UTC), across their public, non-fork repositories."""
@@ -379,8 +371,6 @@ def main():
     for theme, c in THEMES.items():
         suffix = "" if theme == "light" else "-dark"
         (OUT_DIR / f"print{suffix}.svg").write_text(daily_print(c, weeks, now))
-        for slug, label in LINKS:
-            (OUT_DIR / f"link-{slug}{suffix}.svg").write_text(text_link(c, label))
         for slug, label, part in HZ_LINKS:
             (OUT_DIR / f"hz-{slug}{suffix}.svg").write_text(horizon_link(c, label, part))
     print(f"{sum(weeks)} commits in the last 52 weeks; sky drawn at {now:%H:%M} IST")
