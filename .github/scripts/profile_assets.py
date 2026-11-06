@@ -32,6 +32,7 @@ LAT, LON = 13.0827, 80.2707
 IST = timezone(timedelta(hours=5, minutes=30))
 # The name and subtitle block in the sky image: the sun and moon stay out of it.
 TEXT_RIGHT, TEXT_BOTTOM = 400, 130
+PRINT_NOTE = "Like tree rings: each one wider where the work was heaviest."
 LINKS = [("portfolio", "portfolio"), ("linkedin", "linkedin"), ("email", "email")]
 
 THEMES = {
@@ -277,7 +278,7 @@ def rings(weeks, cx, cy, radius, seed, layers=40, points=150):
 
 
 def daily_print(c, weeks, now):
-    w, h = 860, 560
+    w, h = 860, 584
     doy = now.timetuple().tm_yday
     total = sum(weeks)
     paths = []
@@ -294,7 +295,9 @@ def daily_print(c, weeks, now):
         + "".join(paths)
         + f'<text x="{w / 2}" y="486" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="24" '
           f'fill="{c["ink"]}">A year in commits, No. {doy}</text>'
-        + f'<text class="mono" x="{w / 2}" y="514" text-anchor="middle" font-size="11" letter-spacing=".5" fill="{c["muted"]}">'
+        + f'<text x="{w / 2}" y="514" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="17" '
+          f'fill="{c["muted"]}">{escape(PRINT_NOTE)}</text>'
+        + f'<text class="mono" x="{w / 2}" y="546" text-anchor="middle" font-size="11" letter-spacing=".5" fill="{c["muted"]}">'
           f'{total} COMMITS · BUSIEST WEEK {max(weeks)} · DRAWN {date}</text>'
     )
     css = SERIF_FONTS + ".rg{animation:rg .9s ease-out both}@keyframes rg{from{opacity:0}to{opacity:var(--o)}}" + REDUCED
