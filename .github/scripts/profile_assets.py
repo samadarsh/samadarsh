@@ -32,7 +32,6 @@ LAT, LON = 13.0827, 80.2707
 IST = timezone(timedelta(hours=5, minutes=30))
 # The name and subtitle block in the sky image: the sun and moon stay out of it.
 TEXT_RIGHT, TEXT_BOTTOM = 400, 130
-PRINT_NOTE = "Like tree rings: each one wider where the work was heaviest."
 LINKS = [("portfolio", "portfolio"), ("linkedin", "linkedin"), ("email", "email")]
 
 THEMES = {
@@ -277,12 +276,69 @@ def rings(weeks, cx, cy, radius, seed, layers=40, points=150):
     return curves
 
 
+def first_week(now):
+    """Start (Sunday, 00:00 UTC) of the oldest of the 52 weeks counted."""
+    now = now.astimezone(timezone.utc)
+    return (now - timedelta(days=(now.weekday() + 1) % 7, weeks=51)).replace(hour=0, minute=0, second=0, microsecond=0)
+
+
+def part_of_month(day):
+    return "early" if day <= 10 else "mid" if day <= 20 else "late"
+
+
+def when(date):
+    return f"{part_of_month(date.day)} {date.strftime('%B')}"
+
+
+def takeaway(weeks, first):
+    """One plain sentence about the year: the busiest week's month, and the longest quiet stretch."""
+    if not any(weeks):
+        return "No commits in the last 52 weeks yet."
+    peak = weeks.index(max(weeks))
+    text = f"Busiest in {when(first + timedelta(weeks=peak, days=3))}"
+    best, run, start = (0, 0), 0, 0
+    for i, v in enumerate(weeks + [99]):
+        if v <= 1:
+            if run == 0:
+                start = i
+            run += 1
+        else:
+            if run > best[0]:
+                best = (run, start)
+            run = 0
+    length, start = best
+    if length >= 3:
+        quiet_from = first + timedelta(weeks=start)
+        quiet_to = first + timedelta(weeks=start + length - 1, days=6)
+        text += f"; quiet from {when(quiet_from)} to {when(quiet_to)}"
+    return text + "."
+
+
+def month_labels(c, first, cx, cy, radius):
+    """Direct labels around the rings: each month sits at the angle of its first week."""
+    out, seen = [], set()
+    for i in range(52):
+        d = first + timedelta(weeks=i)
+        key = (d.year, d.month)
+        if key in seen or (i == 0 and d.day > 7):
+            seen.add(key)
+            continue
+        seen.add(key)
+        a = i / 52 * math.pi * 2
+        x, y = cx + math.sin(a) * radius, cy - math.cos(a) * radius
+        anchor = "middle" if abs(math.sin(a)) < 0.3 else "start" if math.sin(a) > 0 else "end"
+        out.append(f'<text x="{x:.1f}" y="{y + 4:.1f}" text-anchor="{anchor}">{d.strftime("%b")}</text>')
+    return f'<g class="mono" font-size="10" letter-spacing=".3" fill="{c["muted"]}">{"".join(out)}</g>'
+
+
 def daily_print(c, weeks, now):
-    w, h = 860, 584
+    w, h = 860, 612
+    cx, cy, radius = w / 2, 268, 180
     doy = now.timetuple().tm_yday
     total = sum(weeks)
+    first = first_week(now)
     paths = []
-    for j, t, d in rings(weeks, w / 2, 248, 180, doy * 7919 + now.year):
+    for j, t, d in rings(weeks, cx, cy, radius, doy * 7919 + now.year):
         hot = j % 9 == 4
         color = c["accent"] if hot else c["ink"]
         op = 0.95 if hot else 0.5 * (0.4 + 0.6 * t)
@@ -290,19 +346,21 @@ def daily_print(c, weeks, now):
         paths.append(f'<path class="rg" style="animation-delay:{j * .03:.2f}s;--o:{op:.2f}" d="{d}" fill="none" '
                      f'stroke="{color}" stroke-width="{width}" stroke-linejoin="round" opacity="{op:.2f}"/>')
     date = f"{now.day} {now.strftime('%b').upper()} {now.year}"
+    line = takeaway(weeks, first)
     body = (
         f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="10" fill="{c["paper"]}" stroke="{c["border"]}"/>'
         + "".join(paths)
-        + f'<text x="{w / 2}" y="486" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="24" '
+        + month_labels(c, first, cx, cy, radius * 1.17)
+        + f'<text x="{w / 2}" y="516" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="24" '
           f'fill="{c["ink"]}">A year in commits, No. {doy}</text>'
-        + f'<text x="{w / 2}" y="514" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="17" '
-          f'fill="{c["muted"]}">{escape(PRINT_NOTE)}</text>'
-        + f'<text class="mono" x="{w / 2}" y="546" text-anchor="middle" font-size="11" letter-spacing=".5" fill="{c["muted"]}">'
+        + f'<text x="{w / 2}" y="544" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="17" '
+          f'fill="{c["muted"]}">{escape(line)}</text>'
+        + f'<text class="mono" x="{w / 2}" y="576" text-anchor="middle" font-size="11" letter-spacing=".5" fill="{c["muted"]}">'
           f'{total} COMMITS · BUSIEST WEEK {max(weeks)} · DRAWN {date}</text>'
     )
     css = SERIF_FONTS + ".rg{animation:rg .9s ease-out both}@keyframes rg{from{opacity:0}to{opacity:var(--o)}}" + REDUCED
-    label = (f"A year in commits, No. {doy}: a print of concentric rings shaped by {total} commits over the last 52 weeks, "
-             f"{max(weeks)} in the busiest week.")
+    label = (f"A year in commits, No. {doy}: rings shaped by {total} commits over the last 52 weeks, with months "
+             f"marked around the edge. {line}")
     return svg(w, h, label, body, css)
 
 
@@ -316,8 +374,7 @@ def text_link(c, label):
 def collect_stats():
     """The user's own commits per week on each default branch over the last 52 weeks
     (weeks start Sunday, UTC), across their public, non-fork repositories."""
-    now = datetime.now(timezone.utc)
-    first = (now - timedelta(days=(now.weekday() + 1) % 7, weeks=51)).replace(hour=0, minute=0, second=0, microsecond=0)
+    first = first_week(datetime.now(timezone.utc))
     since = first.strftime("%Y-%m-%dT%H:%M:%SZ")
     weeks = [0] * 52
 
